@@ -3,7 +3,7 @@ name = "rizhiy-com"
 dynamic = ["description", "version"]
 dependencies = ["flask", "python-dotenv"]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 
 [project.urls]
 Website = "rizhiy.com"
