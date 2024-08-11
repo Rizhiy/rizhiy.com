@@ -1,0 +1,12 @@
+[project]
+name = "rizhiy-com"
+dynamic = ["version", "description"]
+dependencies = ["flask", "python-dotenv"]
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov"]
+dev = ["black", "pre-commit", "ruff", "isort", "watchdog", "rizhiy-com[test]"]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"
