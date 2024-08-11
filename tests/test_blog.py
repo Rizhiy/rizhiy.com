@@ -18,12 +18,12 @@ def test_index(client, auth):
 
 
 @pytest.mark.parametrize(
-    "path",
-    (
-        "/create",
-        "/1/update",
-        "/1/delete",
-    ),
+    ("path"),
+    [
+        ("/create"),
+        ("/1/update"),
+        ("/1/delete"),
+    ],
 )
 def test_login_required(client, path):
     response = client.post(path)
@@ -46,11 +46,11 @@ def test_author_required(app, client, auth):
 
 
 @pytest.mark.parametrize(
-    "path",
-    (
-        "/2/update",
-        "/2/delete",
-    ),
+    ("path"),
+    [
+        ("/2/update"),
+        ("/2/delete"),
+    ],
 )
 def test_exists_required(client, auth, path):
     auth.login()
@@ -80,11 +80,11 @@ def test_update(client, auth, app):
 
 
 @pytest.mark.parametrize(
-    "path",
-    (
-        "/create",
-        "/1/update",
-    ),
+    "path,",
+    [
+        ("/create"),
+        ("/1/update"),
+    ],
 )
 def test_create_update_validate(client, auth, path):
     auth.login()

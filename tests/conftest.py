@@ -1,13 +1,13 @@
 import os
 import tempfile
+from pathlib import Path
 
 import pytest
 
 from rizhiy_com import create_app
 from rizhiy_com.db import get_db, init_db
 
-with open(os.path.join(os.path.dirname(__file__), "data.sql"), "rb") as f:
-    _data_sql = f.read().decode("utf8")
+_data_sql = (Path(__file__).parent / "data.sql").read_bytes().decode("utf8")
 
 
 @pytest.fixture
@@ -23,7 +23,7 @@ def app():
     yield app
 
     os.close(db_fd)
-    os.unlink(db_path)
+    os.unlink(db_path)  # noqa: PTH108
 
 
 @pytest.fixture
@@ -36,13 +36,14 @@ def runner(app):
     return app.test_cli_runner()
 
 
-class AuthActions(object):
+class AuthActions:
     def __init__(self, client):
         self._client = client
 
-    def login(self, username="test", password="test"):
+    def login(self, username="test", password="test"):  # noqa: S107
         return self._client.post(
-            "/auth/login", data={"username": username, "password": password}
+            "/auth/login",
+            data={"username": username, "password": password},
         )
 
     def logout(self):

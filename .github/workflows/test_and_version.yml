@@ -2,6 +2,7 @@
 # This workflow will install Python dependencies, run tests
 # Depending on commit messages it will update version and push new commit
 name: Test and Version
+
 on:
   push:
     branches: [master]
@@ -9,6 +10,7 @@ on:
   pull_request:
     branches: [master]
     tags-ignore: [v*]
+
 jobs:
   check-style:
     runs-on: ubuntu-latest
@@ -43,7 +45,7 @@ jobs:
           pip install -e ".[test]"
       - name: Test with pytest
         run: |
-          pytest --cov class_cache .
+          pytest --cov rizhiy_com .
       - name: Upload coverage reports to Codecov
         if: ${{ matrix.python-version == '3.12' }}
         uses: codecov/codecov-action@v4.0.1

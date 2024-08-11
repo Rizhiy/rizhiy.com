@@ -1,8 +1,8 @@
 """Artem Vasenin's personal website (rizhiy.com)"""
 
 import os
+from pathlib import Path
 
-import dotenv
 from flask import Flask
 
 from rizhiy_com import auth, blog
@@ -13,7 +13,7 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        DATABASE=os.path.join(app.instance_path, "rizhiy.sqlite"),
+        DATABASE=Path(app.instance_path) / "rizhiy.sqlite",
     )
 
     if test_config is None:
@@ -23,7 +23,7 @@ def create_app(test_config=None):
         # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    os.makedirs(app.instance_path, exist_ok=True)
+    Path(app.instance_path).mkdir(exist_ok=True, parents=True)
     init_app(app)
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
@@ -32,4 +32,4 @@ def create_app(test_config=None):
     return app
 
 
-__version__ = "1.0.0"
+__version__ = "0.0.1"
