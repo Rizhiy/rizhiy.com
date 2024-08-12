@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.2.0 (2024-08-12)
+
+### Feature
+
+* feat: add scripts to setup prod ([`15fc94e`](https://github.com/Rizhiy/rizhiy.com/commit/15fc94e60e6224c2324b00625d828f587f5a24ee))
+
 ## v0.1.0 (2024-08-11)
 
 ### Feature
