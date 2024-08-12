@@ -1,15 +1,15 @@
 """Artem Vasenin's personal website (rizhiy.com)"""
 
-import os
 from pathlib import Path
 
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from rizhiy_com import auth, blog
 from rizhiy_com.db import init_app
 
 
-def create_app(test_config=None):
+def create_app(test_config=None) -> Flask:
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -29,6 +29,12 @@ def create_app(test_config=None):
     app.register_blueprint(blog.bp)
     app.add_url_rule("/", endpoint="index")
 
+    return app
+
+
+def create_app_for_proxy() -> Flask:
+    app = create_app()
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
     return app
 
 
