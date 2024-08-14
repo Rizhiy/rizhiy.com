@@ -27,3 +27,10 @@ repos:
     rev: 24.8.0
     hooks:
       - id: black
+  - repo: https://github.com/djlint/djLint
+    rev: v1.34.1
+    hooks:
+      - id: djlint
+        types_or: [jinja]
+      - id: djlint-reformat
+        types_or: [jinja]

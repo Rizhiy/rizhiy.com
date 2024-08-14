@@ -1,7 +1,7 @@
 [project]
 name = "rizhiy-com"
 dynamic = ["description", "version"]
-dependencies = ["flask", "python-dotenv", "waitress"]
+dependencies = ["flask", "libsass", "python-dotenv", "waitress"]
 readme = "README.md"
 requires-python = ">=3.10"
 
@@ -10,7 +10,7 @@ Website = "http://www.rizhiy.com"
 
 [project.optional-dependencies]
 test = ["pytest", "pytest-cov"]
-dev = ["black", "isort", "pre-commit", "rizhiy-com[test]", "ruff", "watchdog"]
+dev = ["black", "djlint", "isort", "pre-commit", "rizhiy-com[test]", "ruff", "watchdog"]
 
 [build-system]
 requires = ["flit_core<4"]
@@ -36,6 +36,11 @@ line_length = 120
 [tool.yamlfix]
 line_length = 120
 section_whitelines = 1
+
+[tool.djlint]
+profile = "jinja"
+extension = "html.jinja"
+ignore = "T003"
 
 [tool.pyright]
 strictParameterNoneValue = false
