@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.4.1 (2024-08-14)
+
+### Fix
+
+* fix: adjust for dark mode ([`366e6dc`](https://github.com/Rizhiy/rizhiy.com/commit/366e6dc71874db965f7e2d245b86c8c5f6dd8a2f))
+
 ## v0.4.0 (2024-08-14)
 
 ### Chore
