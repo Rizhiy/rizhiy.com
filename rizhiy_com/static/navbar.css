@@ -1,0 +1,46 @@
+#navbar {
+  background-color: #ccc;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#navbar a {
+  text-align: center;
+  margin: 0.5em 0.7em;
+}
+
+#navbar .left {
+  float: left;
+}
+
+#navbar .right {
+  float: right;
+}
+
+#navbar .icon {
+  display: none;
+}
+
+@media (max-width: 300px) {
+  #navbar .right {
+    display: none;
+  }
+  #navbar .icon {
+    display: block;
+  }
+
+  #navbar.open {
+    position: relative;
+  }
+  #navbar.open a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  #navbar.open .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}

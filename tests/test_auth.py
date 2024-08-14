@@ -3,8 +3,6 @@ from flask import g, session
 
 from rizhiy_com.db import get_db
 
-pytest.skip(allow_module_level=True)
-
 
 def test_register(client, app):
     assert client.get("/auth/register").status_code == 200

@@ -7,7 +7,6 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from rizhiy_com import auth, blog, index
 from rizhiy_com.db import init_app
-from rizhiy_com.utils import auto_compile_scss
 
 
 def create_app(test_config=None) -> Flask:
@@ -28,8 +27,8 @@ def create_app(test_config=None) -> Flask:
     init_app(app)
 
     app.register_blueprint(index.bp)
+    app.register_blueprint(auth.bp)
     app.add_url_rule("/", endpoint="index")
-    auto_compile_scss(app)
 
     return app
 

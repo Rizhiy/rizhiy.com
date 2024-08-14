@@ -7,15 +7,27 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </head>
 <body>
     <header>
-        <nav>
-            {% block header %}{% endblock %}
+        <nav id="navbar" class="closed">
+            <a href="{{ url_for("index") }}" class="left">Home</a>
+            {% if g.user == None %}
+                <a href="{{ url_for("auth.login") }}" class="right">Log in</a>
+                <a href="{{ url_for("auth.register") }}" class="right">Register</a>
+            {% else %}
+                <a href="{{ url_for("auth.logout") }}" class="right">Log out</a>
+            {% endif %}
+            <a class="right icon" onclick="open_nav()">
+                <i class="fa fa-bars"></i>
+            </a>
         </nav>
     </header>
     {% for message in get_flashed_messages() %}<div class="flash">{{ message }}</div>{% endfor %}
-    <div>
+    <div id="content">
         {% block content %}{% endblock %}
     </div>
 </body>

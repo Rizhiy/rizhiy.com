@@ -1,0 +1,83 @@
+@import url("navbar.css");
+
+body {
+  max-width: 650px;
+  min-widh: 300px;
+  margin: 40px auto;
+  padding: 0 10px;
+  font:
+    18px/1.5 -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "Noto Sans",
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji";
+  color: #444;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+.flash {
+  color: #cc4040;
+}
+
+a {
+  text-decoration: none;
+}
+a:link,
+a:visited {
+  color: darkblue;
+}
+a:hover,
+a:focus {
+  color: blue;
+}
+a:active {
+  color: darkgreen;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #c9d1d9;
+    background: #0d1117;
+  }
+
+  a:link,
+  a:visited {
+    color: #58a6ff;
+  }
+  a:hover,
+  a:focus {
+    color: #78a8ff;
+  }
+  a:active {
+    color: #68cc88;
+  }
+}
+
+#content {
+  text-align: center;
+}
+
+.icon-link {
+  display: inline-block;
+  font-size: 2em;
+  margin: 0 0.5em;
+}
+
+#github-icon {
+  color: #1b1f24;
+}
+#linkedin-icon {
+  color: #0a66c2;
+}
