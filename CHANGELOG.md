@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.3.0 (2024-08-14)
+
+### Feature
+
+* feat: add basic main page ([`830a985`](https://github.com/Rizhiy/rizhiy.com/commit/830a985581d111ebb0898020a1387d60032edf6d))
+
+### Test
+
+* test: disable most tests for now ([`b74c35f`](https://github.com/Rizhiy/rizhiy.com/commit/b74c35f6a2bd1ab10eb480eb36fa3469ca0a5367))
+
 ## v0.2.0 (2024-08-12)
 
 ### Feature
