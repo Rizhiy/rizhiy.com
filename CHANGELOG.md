@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## v0.4.0 (2024-08-14)
+
+### Chore
+
+* chore: fix script to update prod ([`0ebbcf0`](https://github.com/Rizhiy/rizhiy.com/commit/0ebbcf091b184aaa71b679aaf2fafb2d9e3b16fb))
+
+* chore: add script to update prod ([`573cc14`](https://github.com/Rizhiy/rizhiy.com/commit/573cc14a3b486c233c7fd880f24d80e00364bfb2))
+
+### Feature
+
+* feat: add auth back and add navbar ([`003ffa3`](https://github.com/Rizhiy/rizhiy.com/commit/003ffa3cb56b8a3b1429bcf60bc0cb974614d960))
+
 ## v0.3.0 (2024-08-14)
 
 ### Feature
