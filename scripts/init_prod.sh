@@ -16,7 +16,7 @@ sudo service nginx restart
 
 if [[ ! $(conda env list | grep "$env_name") >/dev/null ]]; then
 	conda create -n "$env_name" python=3.12 -y
-	conda run -n "$env_name" pip install .
+	conda run -n "$env_name" --no-capture-output pip install .
 fi
 
 # Change to another dir to make sure that app in environment gets used
