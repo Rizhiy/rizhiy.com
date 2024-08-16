@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.5.0 (2024-08-16)
+
+### Feature
+
+* feat: simplify auth pages and add social links ([`fa69f86`](https://github.com/Rizhiy/rizhiy.com/commit/fa69f86418628551fa854648302ee4c86dcc9ad4))
+
 ## v0.4.2 (2024-08-15)
 
 ### Fix
