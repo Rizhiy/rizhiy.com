@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.5.1 (2024-08-16)
+
+### Fix
+
+* fix: fix min-width ([`d366d30`](https://github.com/Rizhiy/rizhiy.com/commit/d366d3068028ff38cceee1e30cdd3769841ac0ff))
+
 ## v0.5.0 (2024-08-16)
 
 ### Feature
