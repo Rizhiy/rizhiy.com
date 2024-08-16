@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.6.0 (2024-08-16)
+
+### Feature
+
+* feat: add https ([`41381e3`](https://github.com/Rizhiy/rizhiy.com/commit/41381e36011f780535872e7b5fb67a37294381ff))
+
 ## v0.5.1 (2024-08-16)
 
 ### Fix
