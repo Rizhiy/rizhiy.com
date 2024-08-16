@@ -27,3 +27,13 @@ cd -
 sudo cp -f other/waitress.service /etc/systemd/system/
 sudo systemctl enable waitress
 sudo systemctl restart waitress
+
+# Setup Let's Encrypt
+conda run -n "$env_name" --no-capture-output pip install certbot certbot-nginx
+certbot_exe="$(conda run -n "$env_name" which certbot)"
+pip_exe="$(conda run -n "$env_name" which pip)"
+sudo "$certbot_exe" run --nginx -d rizhiy.ddns.net -n
+sudo service nginx restart
+## Setup update
+echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 1800)' && sudo "$certbot_exe" renew -q" | sudo tee -a /etc/crontab > /dev/null
+echo "0 1 1 * * root python -c 'import random; import time; time.sleep(random.random() * 1800)' && sudo "$pip_exe" install -U certbot certbot-nginx" | sudo tee -a /etc/crontab > /dev/null
