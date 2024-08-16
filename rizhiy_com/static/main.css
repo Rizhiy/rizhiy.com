@@ -1,4 +1,5 @@
 @import url("navbar.css");
+@import url("icons.css");
 
 body {
   max-width: 650px;
@@ -46,21 +47,15 @@ a:active {
   color: darkgreen;
 }
 
+form > input {
+  margin: 0.5em auto;
+  display: block;
+}
+
 #content {
   text-align: center;
 }
 
-.icon-link {
-  display: inline-block;
-  font-size: 2em;
-  margin: 0 0.5em;
-}
-#github-icon {
-  color: #1b1f24;
-}
-#linkedin-icon {
-  color: #0a66c2;
-}
 @media (prefers-color-scheme: dark) {
   body {
     color: #c9d1d9;
@@ -77,8 +72,5 @@ a:active {
   }
   a:active {
     color: #68cc88;
-  }
-  #github-icon {
-    color: #c9d1d9;
   }
 }

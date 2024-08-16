@@ -1,0 +1,34 @@
+.icon-link {
+  display: inline-block;
+  font-size: 3em;
+  margin: 0 0.3em;
+}
+.icon-link i {
+  color: #000;
+}
+#github-icon {
+  color: #1b1f24;
+}
+#linkedin-icon {
+  color: #0a66c2;
+}
+#goodreads-icon {
+  color: rgb(185, 173, 153);
+}
+#steam-icon {
+  color: #1b2838;
+}
+@media (prefers-color-scheme: dark) {
+  .icon-link i {
+    color: #c9d1d9;
+  }
+  #github-icon {
+    color: #c9d1d9;
+  }
+  #linkedin-icon {
+    color: #0a66c2;
+  }
+  #steam-icon {
+    color: #c9d1d9;
+  }
+}
