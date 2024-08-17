@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.7.1 (2024-08-17)
+
+### Fix
+
+* fix: fix url resolution on prod ([`dd07278`](https://github.com/Rizhiy/rizhiy.com/commit/dd072785108c4cf90c377fc301ff93f1796ba32c))
+
 ## v0.7.0 (2024-08-17)
 
 ### Feature
