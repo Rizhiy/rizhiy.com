@@ -43,7 +43,7 @@ def test_login(client, auth):
 
     with client:
         client.get("/")
-        assert session["user_id"] == 1
+        assert session["user_id"] == "test_user_1"
         assert g.user["username"] == "test"
 
 
