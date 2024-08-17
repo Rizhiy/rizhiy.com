@@ -6,8 +6,9 @@ After=network.target
 Type=simple
 User=rizhiy
 WorkingDirectory=/home/rizhiy
-ExecStart=/home/rizhiy/miniconda3/envs/rizhiy.com-prod/bin/waitress-serve --host 127.0.0.1 --call rizhiy_com:create_app_for_proxy
+ExecStart=/home/rizhiy/miniconda3/envs/rizhiy.com-prod/bin/waitress-serve --host 127.0.0.1 --trusted-proxy "*" --trusted-proxy-headers 'x-forwarded-for x-forwarded-proto x-forwarded-port' --call rizhiy_com:create_app_for_proxy
 Restart=always
+Environment=PYTHONUNBUFFERED=1
 
 [Install]
 WantedBy=multi-user.target

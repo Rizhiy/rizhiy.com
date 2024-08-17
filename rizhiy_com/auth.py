@@ -13,6 +13,11 @@ GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configura
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 
+def get_redirect_uri_base(request):
+    # Just hardcode the base url for now
+    return f"{request.scheme}://{current_app.config['CURRENT_URL']}{request.path}"
+
+
 @bp.route("/register", methods=("GET", "POST"))
 def register():
     if request.method == "POST":
@@ -78,7 +83,7 @@ def google_login():
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri=f"{request.base_url}/callback",
+        redirect_uri=f"{get_redirect_uri_base(request)}/callback",
         scope=["email"],
     )
     return redirect(request_uri)
@@ -96,7 +101,7 @@ def google_login_callback():
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
         authorization_response=request.url,
-        redirect_url=request.base_url,
+        redirect_url=get_redirect_uri_base(request),
         code=code,
     )
     token_response = requests.post(
