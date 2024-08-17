@@ -8,6 +8,28 @@
 #navbar a {
   text-align: center;
   margin: 0.5em 0.7em;
+  display: block;
+}
+
+#user-picture {
+  width: 1.5em;
+  height: 1.5em;
+  margin: 0.5em 0.7em;
+  border-radius: 50%;
+}
+
+#user-icon {
+  display: inline-block;
+  margin: 0.3em 0.6em;
+}
+#user-icon > i {
+  font-size: 1.2em;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #afeeee;
+  color: #darkblue;
+  padding: 0.1em 0.4em;
+  font-style: normal;
 }
 
 #navbar .left {
@@ -33,7 +55,9 @@
   #navbar.open {
     position: relative;
   }
-  #navbar.open a {
+  #navbar.open a,
+  #navbar.open #user-picture,
+  #navbar.open #user-icon {
     float: none;
     display: block;
     text-align: left;

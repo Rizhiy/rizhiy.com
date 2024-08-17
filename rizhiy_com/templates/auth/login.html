@@ -6,12 +6,20 @@
 {% endblock %}
 {% block content %}
     <form method="post">
-        <input name="username" id="username" required placeholder="username" />
+        <input type="username"
+               name="username"
+               id="username"
+               required
+               placeholder="username" />
         <input type="password"
                name="password"
                id="password"
                required
                placeholder="password" />
         <input type="submit" value="Log In" />
+    </form>
+    <hr>
+    <form action="{{ url_for("auth.google_login") }}">
+        <input type="submit" value="Google Login" />
     </form>
 {% endblock %}

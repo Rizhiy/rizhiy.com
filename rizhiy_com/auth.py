@@ -1,10 +1,15 @@
 import functools
+import json
+import uuid
 
-from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
+import requests
+from flask import Blueprint, current_app, flash, g, redirect, render_template, request, session, url_for
+from oauthlib.oauth2 import WebApplicationClient
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from rizhiy_com.db import get_db
 
+GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
 
@@ -24,8 +29,8 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    "INSERT INTO user (id, username, password) VALUES (?, ?, ?)",
+                    (str(uuid.uuid4()), username, generate_password_hash(password)),
                 )
                 db.commit()
             except db.IntegrityError:
@@ -45,10 +50,7 @@ def login():
         password = request.form["password"]
         db = get_db()
         error = None
-        user = db.execute(
-            "SELECT * FROM user WHERE username = ?",
-            (username,),
-        ).fetchone()
+        user = db.execute("SELECT * FROM user WHERE username = ?", (username,)).fetchone()
 
         if user is None:
             error = "Incorrect username."
@@ -63,6 +65,77 @@ def login():
         flash(error)
 
     return render_template("auth/login.html")
+
+
+@bp.route("/login/google")
+def google_login():
+    client = WebApplicationClient(current_app.config["GOOGLE_CLIENT_ID"])
+
+    google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
+    authorization_endpoint = google_provider_cfg["authorization_endpoint"]
+
+    # Use library to construct the request for Google login and provide
+    # scopes that let you retrieve user's profile from Google
+    request_uri = client.prepare_request_uri(
+        authorization_endpoint,
+        redirect_uri=f"{request.base_url}/callback",
+        scope=["email"],
+    )
+    return redirect(request_uri)
+
+
+@bp.route("/login/google/callback")
+def google_login_callback():
+    code = request.args.get("code")
+
+    google_provider_cfg = requests.get(GOOGLE_DISCOVERY_URL).json()
+    token_endpoint = google_provider_cfg["token_endpoint"]
+
+    client = WebApplicationClient(current_app.config["GOOGLE_CLIENT_ID"])
+
+    token_url, headers, body = client.prepare_token_request(
+        token_endpoint,
+        authorization_response=request.url,
+        redirect_url=request.base_url,
+        code=code,
+    )
+    token_response = requests.post(
+        token_url,
+        headers=headers,
+        data=body,
+        auth=(current_app.config["GOOGLE_CLIENT_ID"], current_app.config["GOOGLE_CLIENT_SECRET"]),
+    )
+
+    # Parse the tokens!
+    client.parse_request_body_response(json.dumps(token_response.json()))
+
+    userinfo_endpoint = google_provider_cfg["userinfo_endpoint"]
+    uri, headers, body = client.add_token(userinfo_endpoint)
+    userinfo_response = requests.get(uri, headers=headers, data=body)
+
+    response_json = userinfo_response.json()
+    if not response_json.get("email_verified"):
+        flash("Google authentication failed!")
+        return redirect(url_for("auth.login"))
+
+    user_google_id = userinfo_response.json()["sub"]
+    user_email = userinfo_response.json()["email"]
+    user_picture_url = userinfo_response.json()["picture"]
+
+    db = get_db()
+
+    user = db.execute("SELECT * FROM user WHERE id = ?", (user_google_id,)).fetchone()
+    if not user:
+        db.execute(
+            "INSERT INTO user (id, username, picture_url) VALUES (?, ?, ?)",
+            (user_google_id, user_email, user_picture_url),
+        )
+        db.commit()
+        user = db.execute("SELECT * FROM user WHERE id = ?", (user_google_id,)).fetchone()
+
+    session.clear()
+    session["user_id"] = user["id"]
+    return redirect(url_for("index"))
 
 
 @bp.before_app_request

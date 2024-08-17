@@ -1,7 +1,7 @@
 [project]
 name = "rizhiy-com"
 dynamic = ["description", "version"]
-dependencies = ["flask", "python-dotenv", "waitress"]
+dependencies = ["flask", "oauthlib", "python-dotenv", "requests", "waitress"]
 readme = "README.md"
 requires-python = ">=3.10"
 
@@ -10,7 +10,7 @@ Website = "http://www.rizhiy.com"
 
 [project.optional-dependencies]
 test = ["pytest", "pytest-cov"]
-dev = ["black", "djlint", "isort", "pre-commit", "rizhiy-com[test]", "ruff", "watchdog"]
+dev = ["black", "cryptography", "djlint", "isort", "pre-commit", "rizhiy-com[test]", "ruff", "watchdog"]
 
 [build-system]
 requires = ["flit_core<4"]
