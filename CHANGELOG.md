@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.7.0 (2024-08-17)
+
+### Feature
+
+* feat: add google auth ([`1d33670`](https://github.com/Rizhiy/rizhiy.com/commit/1d33670e3bbfe015bc6a47dbf2afedd266ffcc01))
+
+### Test
+
+* test: fix auth tests ([`3ba9bd2`](https://github.com/Rizhiy/rizhiy.com/commit/3ba9bd2aebbe0d644cffac33c8bc2720c8177eb1))
+
 ## v0.6.0 (2024-08-16)
 
 ### Feature
