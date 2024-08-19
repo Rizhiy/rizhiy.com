@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.8.1 (2024-08-19)
+
+### Chore
+
+* chore: add dotenv ([`a8f6655`](https://github.com/Rizhiy/rizhiy.com/commit/a8f6655c59bb92fa370f65dbded13c0854929924))
+
+### Fix
+
+* fix(navbar): fix profile picture alignment ([`c77e98b`](https://github.com/Rizhiy/rizhiy.com/commit/c77e98b7f5cc909dca0190d6bc62bda797a9632a))
+
 ## v0.8.0 (2024-08-19)
 
 ### Feature
