@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.11.0 (2024-08-19)
+
+### Feature
+
+* feat(auth): login on register and remember last request before login ([`b231a1d`](https://github.com/Rizhiy/rizhiy.com/commit/b231a1dde5fec956de1c0189c1870cbc060acda4))
+
 ## v0.10.1 (2024-08-19)
 
 ### Fix
