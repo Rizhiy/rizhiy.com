@@ -18,7 +18,7 @@
 }
 
 .wish-img>img {
-  height: 6em;
+  width: 6em;
 }
 
 .wish-title {
@@ -91,4 +91,12 @@
     border-color: gray;
     padding-left: 0.5em;
   }
+}
+
+#links {
+  height: 3em;
+}
+
+.wish-text-links>a {
+  display: block;
 }

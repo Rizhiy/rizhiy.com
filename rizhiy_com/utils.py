@@ -1,8 +1,10 @@
 import datetime as dt
 import pickle  # noqa: S403
 import uuid
+from copy import copy
 from functools import cache
 from pathlib import Path
+from urllib.parse import urlparse
 
 import bs4
 import requests
@@ -11,11 +13,41 @@ from currency_converter import CurrencyConverter
 CURRENT_DIR = Path(__file__).parent
 CURRENCY_CONVERTER = CurrencyConverter()
 
+HEADERS = {
+    "User-Agent": "Rizhiy User Agent 1.0",
+}
+
+
+def get_soup_for_url(url: str) -> bs4.BeautifulSoup:
+    headers = copy(HEADERS)
+    r = requests.get(url, headers=headers)
+    r.raise_for_status()
+    return bs4.BeautifulSoup(r.text, features="html.parser")
+
+
+@cache
+def get_url_website_base_name(url: str) -> str:
+    split_url = urlparse(url)
+    split_url = split_url._replace(path="", params="", query="", fragment="")
+    url = split_url.geturl()
+    title = get_soup_for_url(url).title
+    if not title:
+        return ""
+    title = title.text.strip().split(maxsplit=1)[0]
+    if title.endswith(":"):
+        title = title[:-1]
+    return title
+
 
 def get_url_title(url: str) -> str:
-    r = requests.get(url)
-    title = bs4.BeautifulSoup(r.text).title
-    return title.text if title else ""
+    if "discogs" in urlparse(url).netloc:
+        return "Discogs"
+    website_name = get_url_website_base_name(url)
+    title = get_soup_for_url(url).title
+    title = title.text.strip() if title else ""
+    if len(title) > 30:
+        title = title[:27] + "..."
+    return f"{website_name}: {title}"
 
 
 @cache

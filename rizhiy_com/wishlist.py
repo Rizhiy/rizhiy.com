@@ -31,6 +31,8 @@ def index():
             wish["usd_price"] = wish["rough_price"] * get_exchange_rate(wish["currency"])
         else:
             wish["usd_price"] = 0.0
+
+        wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (wish["id"],)).fetchall()
     for wish in wishes:
         wish["usd_price"] = math.ceil(wish["usd_price"])
     available, reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
@@ -68,7 +70,7 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
         link_text = get_url_title(link)
         link_id = get_id()
         db.execute(
-            "INSERT INTO wish_link (id, url, desc, wish_id) VALUES (?, ?, ?)",
+            "INSERT INTO wish_link (id, url, desc, wish_id) VALUES (?, ?, ?, ?)",
             (link_id, link, link_text, id_),
         )
     db.commit()

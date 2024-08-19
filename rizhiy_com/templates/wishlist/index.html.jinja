@@ -30,6 +30,9 @@
                             {% endif %}
                         </div>
                         <div class="wish-text-desc">{{ wish['desc'] }}</div>
+                        <div class="wish-text-links">
+                            {% for link in wish['links'] %}<a href="{{ link['url'] }}">{{ link['desc'] }}</a>{% endfor %}
+                        </div>
                     </div>
                     <div class="wish-price">
                         {% if wish["rough_price"] %}
