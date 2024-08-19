@@ -42,6 +42,8 @@ def get_url_website_base_name(url: str) -> str:
 def get_url_title(url: str) -> str:
     if "discogs" in urlparse(url).netloc:
         return "Discogs"
+    if "ebay" in urlparse(url).netloc:
+        return "Ebay"
     website_name = get_url_website_base_name(url)
     title = get_soup_for_url(url).title
     title = title.text.strip() if title else ""
