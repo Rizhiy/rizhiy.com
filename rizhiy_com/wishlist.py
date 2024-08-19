@@ -1,7 +1,14 @@
+import logging
 import math
+from pathlib import Path
 from sqlite3 import Row
+from urllib.parse import urlparse
+from uuid import uuid4
 
+import click
+import requests
 from flask import Blueprint, current_app, flash, g, redirect, render_template, request, url_for
+from PIL import Image
 from replete import split_list
 from werkzeug.exceptions import abort
 from werkzeug.wrappers.request import Request
@@ -9,7 +16,13 @@ from werkzeug.wrappers.response import Response
 
 from rizhiy_com.auth import login_required
 from rizhiy_com.db import get_db
-from rizhiy_com.utils import get_exchange_rate, get_id, get_url_title
+from rizhiy_com.utils import CURRENT_DIR, HEADERS, get_exchange_rate, get_id, get_url_title
+
+LOGGER = logging.getLogger(__name__)
+
+SAVED_IMG_PREFIX = "static://"
+SAVED_IMG_PREFIX_LEN = len(SAVED_IMG_PREFIX)
+SAVED_IMG_SIZE = 256, 256
 
 bp = Blueprint("wishlist", __name__, url_prefix="/wishlist")
 
@@ -31,6 +44,8 @@ def index():
             wish["usd_price"] = wish["rough_price"] * get_exchange_rate(wish["currency"])
         else:
             wish["usd_price"] = 0.0
+        if wish["picture_url"].startswith(SAVED_IMG_PREFIX):
+            wish["picture_url"] = url_for("static", filename=wish["picture_url"][SAVED_IMG_PREFIX_LEN:])
 
         wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (wish["id"],)).fetchall()
     for wish in wishes:
@@ -147,3 +162,39 @@ def delete(id_):
     db.execute("DELETE FROM wish WHERE id = ?", (id_,))
     db.commit()
     return redirect(url_for("wishlist.index"))
+
+
+def save_wish_img(wish_id: str) -> None:
+    db = get_db()
+    img_url = db.execute("SELECT picture_url FROM wish WHERE id = ?", (wish_id,)).fetchone()[0]
+    if not img_url or img_url.startswith(SAVED_IMG_PREFIX):
+        return
+
+    tmp_dir = Path("/tmp") / "images-for-resize"  # noqa: S108
+    tmp_dir.mkdir(exist_ok=True)
+    tmp_path = tmp_dir / Path(urlparse(img_url).path).name
+
+    tmp_path.write_bytes(requests.get(img_url, headers=HEADERS).content)
+
+    static_dir = CURRENT_DIR / "static"
+    save_path = static_dir / "images" / f"{uuid4()}{tmp_path.suffix}"
+    save_path.parent.mkdir(exist_ok=True, parents=True)
+    with Image.open(tmp_path) as img:
+        img.thumbnail(SAVED_IMG_SIZE)
+        img.save(save_path)
+
+    db_path = f"{SAVED_IMG_PREFIX}{save_path.relative_to(static_dir)}"
+    db.execute("UPDATE wish SET picture_url = ? WHERE id = ?", (db_path, wish_id))
+    db.commit()
+
+
+@bp.cli.add_command
+@click.command("update-images")
+def update_all_img():
+    db = get_db()
+    all_wish_ids = [w[0] for w in db.execute("SELECT id FROM wish").fetchall()]
+    for wish_id in all_wish_ids:
+        try:
+            save_wish_img(wish_id)
+        except Exception:  # noqa: PERF203
+            LOGGER.exception("Failed to create image thumbnail")
