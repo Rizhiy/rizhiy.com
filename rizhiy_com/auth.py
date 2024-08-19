@@ -1,10 +1,11 @@
-import functools
 import json
+from functools import wraps
 
 import requests
 from flask import Blueprint, current_app, flash, g, redirect, render_template, request, session, url_for
 from oauthlib.oauth2 import WebApplicationClient
 from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.wrappers.response import Response
 
 from rizhiy_com.db import get_db
 from rizhiy_com.utils import get_id
@@ -16,6 +17,19 @@ bp = Blueprint("auth", __name__, url_prefix="/auth")
 def get_redirect_uri_base(request):
     # Just hardcode the base url for now
     return f"{request.scheme}://{current_app.config['CURRENT_URL']}{request.path}"
+
+
+def login_user(user_id: str) -> Response:
+    pre_login_url = session.get("pre_login_url")
+
+    session.clear()
+    session["user_id"] = user_id
+    load_logged_in_user()
+
+    if pre_login_url:
+        return redirect(pre_login_url)
+
+    return redirect(url_for("index"))
 
 
 @bp.route("/register", methods=("GET", "POST"))
@@ -33,19 +47,20 @@ def register():
 
         if error is None:
             try:
+                user_id = get_id()
                 db.execute(
                     "INSERT INTO user (id, username, password) VALUES (?, ?, ?)",
-                    (get_id(), username, generate_password_hash(password)),
+                    (user_id, username, generate_password_hash(password)),
                 )
                 db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered."
             else:
-                return redirect(url_for("auth.login"))
+                return login_user(user_id)
 
         flash(error)
 
-    return render_template("auth/register.html")
+    return render_template("auth/register.html.jinja")
 
 
 @bp.route("/login", methods=("GET", "POST"))
@@ -63,13 +78,11 @@ def login():
             error = "Incorrect password."
 
         if error is None:
-            session.clear()
-            session["user_id"] = user["id"]
-            return redirect(url_for("index"))
+            return login_user(user["id"])
 
         flash(error)
 
-    return render_template("auth/login.html")
+    return render_template("auth/login.html.jinja")
 
 
 @bp.route("/login/google")
@@ -138,9 +151,7 @@ def google_login_callback():
         db.commit()
         user = db.execute("SELECT * FROM user WHERE id = ?", (user_google_id,)).fetchone()
 
-    session.clear()
-    session["user_id"] = user["id"]
-    return redirect(url_for("index"))
+    return login_user(user["id"])
 
 
 @bp.before_app_request
@@ -160,9 +171,10 @@ def logout():
 
 
 def login_required(view):
-    @functools.wraps(view)
+    @wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
+            session["pre_login_url"] = request.base_url
             return redirect(url_for("auth.login"))
 
         return view(**kwargs)

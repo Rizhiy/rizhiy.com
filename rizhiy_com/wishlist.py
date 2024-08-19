@@ -1,7 +1,6 @@
 import logging
 import math
 from pathlib import Path
-from sqlite3 import Row
 from urllib.parse import urlparse
 from uuid import uuid4
 
@@ -104,14 +103,6 @@ def add():
         insert_or_update(request)
 
     return render_template("wishlist/add.html.jinja")
-
-
-def get_wish(id_: str) -> Row:
-    db = get_db()
-    wish = db.execute("SELECT * FROM wish WHERE id = ?", (id_)).fetchone()
-    if not wish:
-        flash("Invalid wish id provided")
-        return redirect(url_for("wishlist.index"))
 
 
 @bp.route("/<id_>/edit", methods=("GET", "POST"))
