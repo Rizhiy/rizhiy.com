@@ -1,5 +1,27 @@
 # CHANGELOG
 
+## v0.8.0 (2024-08-19)
+
+### Feature
+
+* feat(wishlist): add basic functionality ([`5f91d12`](https://github.com/Rizhiy/rizhiy.com/commit/5f91d1263d64862f9952295d6f1ba98938a340a9))
+
+### Fix
+
+* fix(wishlist): fix wishlist on mobile devices ([`e392733`](https://github.com/Rizhiy/rizhiy.com/commit/e392733d2f8e54b72ac66f10fccbdf1de91c37ef))
+
+* fix(wishlist): fix unreserved use-case ([`1209d56`](https://github.com/Rizhiy/rizhiy.com/commit/1209d56bfc6bd935e751bac52a364aa5f3d37834))
+
+### Style
+
+* style: format ([`7ae3ac4`](https://github.com/Rizhiy/rizhiy.com/commit/7ae3ac403702f7896d8c99c84ea6101ef21bb1a4))
+
+### Test
+
+* test: add replete[testing] ([`7377be8`](https://github.com/Rizhiy/rizhiy.com/commit/7377be8a031739e3cec551003cfd3c0e61a1bcb9))
+
+* test: fix ([`7a6d3d7`](https://github.com/Rizhiy/rizhiy.com/commit/7a6d3d75167fada538817b51ffd8a2502a7a031c))
+
 ## v0.7.1 (2024-08-17)
 
 ### Fix
