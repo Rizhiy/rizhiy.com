@@ -53,7 +53,9 @@ def index():
     available, reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
     wishes = []
 
-    user_reserved = next(filter(lambda w: w["reserved_by"] == g.user["id"], reserved), None)
+    user_reserved = None
+    if g.user:
+        user_reserved = next(filter(lambda w: w["reserved_by"] == g.user["id"], reserved), None)
     if user_reserved:
         reserved.remove(user_reserved)
         wishes.append(user_reserved)
