@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## v0.10.0 (2024-08-19)
+
+### Chore
+
+* chore(utils): add special case for Ebay ([`19e3851`](https://github.com/Rizhiy/rizhiy.com/commit/19e38519bd632f6c2dfe2f211c53713b24ea4b1b))
+
+* chore(wishlist): sort by price asc ([`dafd67e`](https://github.com/Rizhiy/rizhiy.com/commit/dafd67ec2c0bb48f81cb20ec851fa2d55d8de348))
+
+### Feature
+
+* feat(wishlist): add function to create image thumbnails ([`7fd25ef`](https://github.com/Rizhiy/rizhiy.com/commit/7fd25ef1242eb1e1c8f1e226946653b78af131e2))
+
+### Fix
+
+* fix: add pillow to dependencies ([`5343bae`](https://github.com/Rizhiy/rizhiy.com/commit/5343bae2629d2b2a0f132d36c015a6b3c5bfbb60))
+
 ## v0.9.0 (2024-08-19)
 
 ### Feature
