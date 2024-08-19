@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.9.0 (2024-08-19)
+
+### Feature
+
+* feat(wishlist): add links to index ([`514cc15`](https://github.com/Rizhiy/rizhiy.com/commit/514cc1510837e0ca4bef5e957f92f746a64e6168))
+
 ## v0.8.1 (2024-08-19)
 
 ### Chore
