@@ -92,3 +92,9 @@
     background: #2d3137;
   }
 }
+
+#header {
+  position: sticky;
+  top: 1em;
+  z-index: 999;
+}
