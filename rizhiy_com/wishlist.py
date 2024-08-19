@@ -1,3 +1,4 @@
+import math
 import numbers
 from contextlib import redirect_stdout
 from sqlite3 import Row
@@ -33,7 +34,7 @@ def index():
         else:
             wish["usd_price"] = 0.0
     for wish in wishes:
-        wish["usd_price"] = f"{wish['usd_price']:.2f}"
+        wish["usd_price"] = math.ceil(wish["usd_price"])
     available, reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
     wishes = []
 
