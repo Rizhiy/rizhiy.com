@@ -37,12 +37,12 @@ def index():
     available, reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
     wishes = []
 
-    user_reserved = next(filter(lambda w: w["reserved_by"] == g.user["id"], reserved))
+    user_reserved = next(filter(lambda w: w["reserved_by"] == g.user["id"], reserved), None)
     if user_reserved:
         reserved.remove(user_reserved)
         wishes.append(user_reserved)
 
-    available = sorted(available, key=lambda w: w["usd_price"], reverse=True)
+    available = sorted(available, key=lambda w: float(w["usd_price"]), reverse=True)
     wishes.extend(available)
     wishes.extend(reserved)
 
