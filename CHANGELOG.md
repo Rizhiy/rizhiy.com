@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.10.1 (2024-08-19)
+
+### Fix
+
+* fix: make navbar sticky and reduce top margin ([`b22338c`](https://github.com/Rizhiy/rizhiy.com/commit/b22338c3439101f312ab493e78ad6104679176c6))
+
+* fix(wishlist): fix multiline description ([`a7bb97c`](https://github.com/Rizhiy/rizhiy.com/commit/a7bb97c87f6c66b6fea2e72ab31f296e42ff7ab2))
+
+* fix(wishlist): fix display when user is unknown ([`03e5005`](https://github.com/Rizhiy/rizhiy.com/commit/03e5005d655d57a003206a1fc2775efe54fb2061))
+
 ## v0.10.0 (2024-08-19)
 
 ### Chore
