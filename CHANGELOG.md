@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.11.1 (2024-08-19)
+
+### Fix
+
+* fix(auth): fix prev_url for prod ([`a3d4d54`](https://github.com/Rizhiy/rizhiy.com/commit/a3d4d54337a04528f31ea76853a928d40cfe42ba))
+
 ## v0.11.0 (2024-08-19)
 
 ### Feature
