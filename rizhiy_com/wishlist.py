@@ -43,7 +43,7 @@ def index():
         reserved.remove(user_reserved)
         wishes.append(user_reserved)
 
-    available = sorted(available, key=lambda w: float(w["usd_price"]), reverse=True)
+    available = sorted(available, key=lambda w: float(w["usd_price"]))
     wishes.extend(available)
     wishes.extend(reserved)
 
