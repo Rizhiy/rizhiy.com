@@ -1,6 +1,5 @@
 import functools
 import json
-import uuid
 
 import requests
 from flask import Blueprint, current_app, flash, g, redirect, render_template, request, session, url_for

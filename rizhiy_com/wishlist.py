@@ -1,6 +1,4 @@
 import math
-import numbers
-from contextlib import redirect_stdout
 from sqlite3 import Row
 
 from flask import Blueprint, current_app, flash, g, redirect, render_template, request, url_for
