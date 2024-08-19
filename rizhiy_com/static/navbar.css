@@ -19,12 +19,12 @@
 #user-picture {
   width: 1.5em;
   height: 1.5em;
-  margin: 0.5em 0.7em;
   border-radius: 50%;
+  vertical-align: middle;
+  margin: 0.3em 0.1em 0.3em 0.6em;
 }
 
 #user-icon {
-  display: inline-block;
   margin: 0.3em 0.1em 0.3em 0.6em;
 }
 
