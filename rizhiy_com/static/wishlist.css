@@ -39,6 +39,10 @@
   min-width: 5em;
 }
 
+.wish-text-desc {
+  white-space: pre-wrap;
+}
+
 .wish-text-header>* {
   display: inline-block;
 }
