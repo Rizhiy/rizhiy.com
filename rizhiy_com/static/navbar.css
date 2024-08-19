@@ -5,10 +5,15 @@
   padding: 0;
 }
 
-#navbar a {
+#navbar>a {
   text-align: center;
   margin: 0.5em 0.7em;
   display: block;
+}
+
+#user-part>* {
+  display: inline-block;
+  margin: 0.5em 0.7em;
 }
 
 #user-picture {
@@ -20,14 +25,15 @@
 
 #user-icon {
   display: inline-block;
-  margin: 0.3em 0.6em;
+  margin: 0.3em 0.1em 0.3em 0.6em;
 }
-#user-icon > i {
+
+#user-icon>i {
   font-size: 1.2em;
   text-align: center;
   border-radius: 50%;
   background-color: #afeeee;
-  color: #darkblue;
+  color: darkblue;
   padding: 0.1em 0.4em;
   font-style: normal;
 }
@@ -44,10 +50,15 @@
   display: none;
 }
 
-@media (max-width: 300px) {
+@media (max-width: 350px) {
+  #navbar .left:not(:first-child) {
+    display: none;
+  }
+
   #navbar .right {
     display: none;
   }
+
   #navbar .icon {
     display: block;
   }
@@ -55,13 +66,20 @@
   #navbar.open {
     position: relative;
   }
-  #navbar.open a,
-  #navbar.open #user-picture,
-  #navbar.open #user-icon {
+
+  #navbar.open>a,
+  #navbar.open .left:not(:first-child) {
     float: none;
     display: block;
     text-align: left;
   }
+
+  #navbar.open #user-part {
+    float: none;
+    text-align: left;
+    display: block;
+  }
+
   #navbar.open .icon {
     position: absolute;
     right: 0;

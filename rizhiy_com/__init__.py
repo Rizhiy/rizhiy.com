@@ -5,7 +5,7 @@ from pathlib import Path
 from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from rizhiy_com import auth, blog, index
+from rizhiy_com import auth, index, wishlist
 from rizhiy_com.db import init_app
 
 
@@ -28,6 +28,7 @@ def create_app(test_config=None) -> Flask:
 
     app.register_blueprint(index.bp)
     app.register_blueprint(auth.bp)
+    app.register_blueprint(wishlist.bp)
     app.add_url_rule("/", endpoint="index")
 
     return app

@@ -1,0 +1,12 @@
+form * {
+  display: block;
+  text-align: center;
+}
+form textarea {
+  width: 100%;
+}
+
+form #rough_price,
+form #currency {
+  display: inline-block;
+}

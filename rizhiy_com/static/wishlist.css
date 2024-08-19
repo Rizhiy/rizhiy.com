@@ -1,0 +1,51 @@
+.wish {
+  display: flex;
+  margin: 0.5em 1em;
+}
+
+.wish>div {
+  display: inline-block;
+  margin: 0 0.5em;
+}
+
+.wish-img {
+  float: left;
+  width: 6em;
+}
+
+.wish-img>img {
+  height: 6em;
+}
+
+.wish-title {
+  font-weight: bold;
+}
+
+.wish-content>div {
+  text-align: left;
+}
+
+.wish-content {
+  flex-grow: 1;
+}
+
+.wish-header>* {
+  display: inline-block;
+}
+
+#wishlist-header-separator {
+  border: 0.1em solid;
+}
+
+.wish-price {
+  width: 5em;
+}
+
+.usd_price {
+  padding-top: 0.5em;
+  color: gray;
+}
+
+.wish-reserve {
+  width: 5em;
+}

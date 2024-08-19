@@ -15,23 +15,25 @@
     <header>
         <nav id="navbar" class="closed">
             <a href="{{ url_for("index") }}" class="left">Home</a>
+            <a href="{{ url_for("wishlist.index") }}" class="left">Wishlist</a>
             {% if g.user == None %}
                 <a href="{{ url_for("auth.login") }}" class="right">Log in</a>
                 <a href="{{ url_for("auth.register") }}" class="right">Register</a>
             {% else %}
-                {% if g.user["picture_url"] == None %}
-                    <div id="user-icon" class="right">
-                        <i>{{ g.user["username"].0.upper() }}</i>
-                    </div>
-                {% else %}
-                    <img id="user-picture"
-                         class="right"
-                         src="{{ g.user["picture_url"] }}"
-                         alt="User Profile Picture"
-                         width="200"
-                         height="200">
-                {% endif %}
-                <a href="{{ url_for("auth.logout") }}" class="right">Log out</a>
+                <div id="user-part" class="right">
+                    {% if g.user["picture_url"] == None %}
+                        <div id="user-icon">
+                            <i>{{ g.user["username"].0.upper() }}</i>
+                        </div>
+                    {% else %}
+                        <img id="user-picture"
+                             src="{{ g.user["picture_url"] }}"
+                             alt="User Profile Picture"
+                             width="200"
+                             height="200">
+                    {% endif %}
+                    <a href="{{ url_for("auth.logout") }}">Log out</a>
+                </div>
             {% endif %}
             <a class="right icon" onclick="open_nav()">
                 <i class="fa fa-bars"></i>

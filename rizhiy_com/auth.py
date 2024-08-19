@@ -8,6 +8,7 @@ from oauthlib.oauth2 import WebApplicationClient
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from rizhiy_com.db import get_db
+from rizhiy_com.utils import get_id
 
 GOOGLE_DISCOVERY_URL = "https://accounts.google.com/.well-known/openid-configuration"
 bp = Blueprint("auth", __name__, url_prefix="/auth")
@@ -35,7 +36,7 @@ def register():
             try:
                 db.execute(
                     "INSERT INTO user (id, username, password) VALUES (?, ?, ?)",
-                    (str(uuid.uuid4()), username, generate_password_hash(password)),
+                    (get_id(), username, generate_password_hash(password)),
                 )
                 db.commit()
             except db.IntegrityError:

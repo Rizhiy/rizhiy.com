@@ -1,0 +1,29 @@
+{% extends "base.html.jinja" %}
+{% block title %}Edit Wish{% endblock %}
+{% block content %}
+    <form method="post">
+        <label for="title">Title</label>
+        <input name="title"
+               id="title"
+               placeholder="A wish"
+               value="{{ wish['title'] }}"
+               required />
+        <label for="desc">Description</label>
+        <textarea name="desc" id="desc">{{ wish['desc'] }}</textarea>
+        <label for="rough_price">Price</label>
+        <input name="rough_price"
+               id="rough_price"
+               placeholder="0.00"
+               value="{{ wish['rough_price'] }}" />
+        <input name="currency"
+               id="currency"
+               placeholder="USD"
+               value="{{ wish['currency'] }}" />
+        <label for="picture_url"></label>
+        <input name="picture_url" id="picture_url" value="{{ wish['picture_url'] }}" />
+        <!-- Add some javascript to be able to add links individually -->
+        <label for="links">Links</label>
+        <textarea name="links" id="links" disabled>Can't edit links for now</textarea>
+        <input type="submit" value="Save" />
+    </form>
+{% endblock %}

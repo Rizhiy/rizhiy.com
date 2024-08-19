@@ -1,0 +1,55 @@
+{% extends "base.html.jinja" %}
+{% block title %}Wishlist{% endblock %}
+{% block content %}
+    <div id="wishlist">
+        {% if g.user["id"] == config["RIZHIY_ID"] %}<a href="{{ url_for("wishlist.add") }}">Add</a>{% endif %}
+        <article id="wishlist-header" class="wish">
+            <div class="wish-img">Reference</div>
+            <div class="wish-content">&nbsp</div>
+            <div class="wish-price">Rough Price</div>
+            <div class="wish-reserve">Avoid duplicates</div>
+        </article>
+        <hr id="wishlist-header-separator">
+        {% for wish in wishes %}
+            <article id="wish-{{ wish['id'] }}" class="wish">
+                <div class="wish-img">
+                    {% if wish["picture_url"] %}<img src="{{ wish["picture_url"] }}" alt="Wish image">{% endif %}
+                </div>
+                <div class="wish-content">
+                    <div class="wish-header">
+                        <div class="wish-title">{{ wish['title'] }}</div>
+                        {% if g.user['id'] == config["RIZHIY_ID"] %}
+                            <a href="{{ url_for('wishlist.edit', id_=wish['id']) }}">Edit</a>
+                            <form action="{{ url_for('wishlist.delete', id_=wish['id']) }}"
+                                  method="post">
+                                <a onclick="confirm('Are you sure?') ? this.closest('form').submit(): null;">Delete</a>
+                            </form>
+                        {% endif %}
+                    </div>
+                    <div class="desc">{{ wish['desc'] }}</div>
+                </div>
+                <div class="wish-price">
+                    {% if wish["rough_price"] %}
+                        <div class="amount">{{ wish["rough_price"] }}</div>
+                        <div class="currency">{{ wish["currency"] }}</div>
+                        <div class="usd_price">${{ wish["usd_price"] }}</div>
+                    {% else %}
+                        -
+                    {% endif %}
+                </div>
+                <div class="wish-reserve">
+                    {% if wish['reserved_by'] %}
+                        {% if wish['reserved_by'] == g.user['id'] %}
+                            <a href="{{ url_for('wishlist.reserve', id_=wish['id']) }}">Un-reserve</a>
+                        {% else %}
+                            <div>Already Reserved</div>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ url_for('wishlist.reserve', id_=wish['id']) }}">Reserve</a>
+                    {% endif %}
+                </div>
+            </article>
+            {% if not loop.last %}<hr>{% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
