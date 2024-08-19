@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from dotenv import load_dotenv
 from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
 
@@ -10,6 +11,7 @@ from rizhiy_com.db import init_app
 
 
 def create_app(test_config=None) -> Flask:
+    load_dotenv()
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(

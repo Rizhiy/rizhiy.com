@@ -1,7 +1,7 @@
 [project]
 name = "rizhiy-com"
 dynamic = ["description", "version"]
-dependencies = ["beautifulsoup4", "currencyconverter", "flask", "oauthlib", "python-dotenv", "replete", "requests", "waitress"]
+dependencies = ["beautifulsoup4", "currencyconverter", "flask", "oauthlib", "python-dotenv", "python-dotenv", "replete", "requests", "waitress"]
 readme = "README.md"
 requires-python = ">=3.10"
 
