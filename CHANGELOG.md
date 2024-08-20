@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.11.4 (2024-08-20)
+
+### Fix
+
+* fix: re-order title template ([`47d372d`](https://github.com/Rizhiy/rizhiy.com/commit/47d372d75ae6abfba2d5d1a4e6cfa560c0f2f280))
+
 ## v0.11.3 (2024-08-20)
 
 ### Fix
