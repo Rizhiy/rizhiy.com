@@ -1,3 +1,4 @@
+import datetime as dt
 import json
 from functools import wraps
 
@@ -20,14 +21,16 @@ def get_redirect_url_base(request):
 
 
 def login_user(user_id: str) -> Response:
-    pre_login_url = session.get("pre_login_url")
+    pre_login = session.get("pre_login")
 
     session.clear()
     session["user_id"] = user_id
     load_logged_in_user()
 
-    if pre_login_url:
-        return redirect(pre_login_url)
+    if pre_login:
+        pre_login_dt = dt.datetime.fromtimestamp(pre_login["timestamp"])
+        if pre_login_dt > dt.datetime.now() - dt.timedelta(minutes=5):
+            return redirect(pre_login["url"])
 
     return redirect(url_for("index"))
 
@@ -166,17 +169,27 @@ def load_logged_in_user():
 
 @bp.route("/logout")
 def logout():
+    last_page = session.get("prev_page", ("index", {}))
     session.clear()
-    return redirect(url_for("index"))
+    return redirect(url_for(last_page[0], **last_page[1]))
 
 
 def login_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            session["pre_login_url"] = get_redirect_url_base(request)
+            session["pre_login"] = {"url": get_redirect_url_base(request), "timestamp": dt.datetime.now().timestamp()}
             return redirect(url_for("auth.login"))
 
         return view(**kwargs)
 
     return wrapped_view
+
+
+@bp.after_app_request
+def save_response(r):
+    if request.method == "POST" or request.endpoint == "static":
+        return r
+
+    session["prev_page"] = (request.endpoint, request.view_args)
+    return r
