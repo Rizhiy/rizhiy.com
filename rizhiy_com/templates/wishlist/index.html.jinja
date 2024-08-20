@@ -46,6 +46,7 @@
                     <div class="wish-reserve">
                         {% if wish['reserved_by'] %}
                             {% if wish['reserved_by'] == g.user['id'] %}
+                                <div>You've reserved</div>
                                 <a href="{{ url_for('wishlist.reserve', id_=wish['id']) }}">Un-reserve</a>
                             {% else %}
                                 <div>Already Reserved</div>
