@@ -30,8 +30,15 @@ h3 {
   line-height: 1.2;
 }
 
-.flash {
+.flash-error {
   color: #cc4040;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+.flash-message {
+  color: #40aa40;
   width: 100%;
   text-align: center;
   font-weight: bold;

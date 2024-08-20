@@ -1,6 +1,7 @@
 import logging
 import math
 from pathlib import Path
+from typing import Any
 from urllib.parse import urlparse
 from uuid import uuid4
 
@@ -22,6 +23,7 @@ LOGGER = logging.getLogger(__name__)
 SAVED_IMG_PREFIX = "static://"
 SAVED_IMG_PREFIX_LEN = len(SAVED_IMG_PREFIX)
 SAVED_IMG_SIZE = 256, 256
+MAX_RESERVE = 3
 
 bp = Blueprint("wishlist", __name__, url_prefix="/wishlist")
 
@@ -29,6 +31,13 @@ bp = Blueprint("wishlist", __name__, url_prefix="/wishlist")
 def check_is_rizhiy() -> None:
     if g.user["id"] != current_app.config["RIZHIY_ID"]:
         abort(403, "Only rizhiy can edit wishes!")
+
+
+def get_wish(wish_id: str) -> dict[str, Any]:
+    db = get_db()
+    query = db.execute("SELECT * FROM wish WHERE id = ?", (wish_id,))
+    columns = [d[0] for d in query.description]
+    return dict(zip(columns, query.fetchone(), strict=False))
 
 
 @bp.route("/")
@@ -49,19 +58,19 @@ def index():
         wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (wish["id"],)).fetchall()
     for wish in wishes:
         wish["usd_price"] = math.ceil(wish["usd_price"])
-    available, reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
+    available, all_reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
     wishes = []
 
-    user_reserved = None
+    user_reserved = []
     if g.user:
-        user_reserved = next(filter(lambda w: w["reserved_by"] == g.user["id"], reserved), None)
-    if user_reserved:
-        reserved.remove(user_reserved)
-        wishes.append(user_reserved)
+        user_reserved = list(filter(lambda w: w["reserved_by"] == g.user["id"], all_reserved))
+    for reserved in user_reserved:
+        all_reserved.remove(reserved)
+    wishes.extend(user_reserved)
 
     available = sorted(available, key=lambda w: float(w["usd_price"]))
     wishes.extend(available)
-    wishes.extend(reserved)
+    wishes.extend(all_reserved)
 
     return render_template("wishlist/index.html.jinja", wishes=wishes)
 
@@ -69,7 +78,7 @@ def index():
 def insert_or_update(request: Request, id_: str = None) -> Response:
     title = request.form["title"]
     if not title:
-        flash("Title is required!")
+        flash("Title is required!", "error")
         redirect(url_for("wishlist.add"))
 
     id_ = id_ or get_id()
@@ -110,10 +119,9 @@ def add():
 def edit(id_):
     check_is_rizhiy()
 
-    db = get_db()
-    wish = db.execute("SELECT * FROM wish WHERE id = ?", (id_)).fetchone()
+    wish = get_wish(id_)
     if not wish:
-        flash("Invalid wish id provided")
+        flash("Invalid wish id provided", "error")
         return redirect(url_for("wishlist.index"))
 
     if request.method == "POST":
@@ -124,12 +132,12 @@ def edit(id_):
 @bp.route("/<id_>/reserve", methods=("GET",))
 @login_required
 def reserve(id_):
-    db = get_db()
-
-    wish = db.execute("SELECT reserved_by FROM wish WHERE id = ?", (id_,)).fetchone()
+    wish = get_wish(id_)
     if wish["reserved_by"] and g.user["id"] != wish["reserved_by"]:
-        flash("This wish is already reserved by someone else")
+        flash("This wish is already reserved by someone else", "error")
         return redirect(url_for("wishlist.index"))
+
+    db = get_db()
 
     new_reserved_user = None if wish["reserved_by"] else g.user["id"]
 
@@ -137,12 +145,16 @@ def reserve(id_):
         num_reserved_wishes = db.execute("SELECT COUNT(*) FROM wish WHERE reserved_by = ?", (g.user["id"],)).fetchone()[
             0
         ]
-        if num_reserved_wishes > 0:
-            flash("Sorry, you can't reserve any more wishes")
+        if num_reserved_wishes >= MAX_RESERVE:
+            flash(f"Sorry, you can't reserve more than {MAX_RESERVE} wishes", "error")
             return redirect(url_for("wishlist.index"))
+        status = "reserved"
+    else:
+        status = "un-reserved"
 
     db.execute("UPDATE wish SET reserved_by = ? WHERE id = ?", (new_reserved_user, id_))
     db.commit()
+    flash(f"You have successfully {status} {wish['title']}", "message")
     return redirect(url_for("wishlist.index"))
 
 

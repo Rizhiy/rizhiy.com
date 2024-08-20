@@ -58,7 +58,7 @@ def register():
             else:
                 return login_user(user_id)
 
-        flash(error)
+        flash(error, "error")
 
     return render_template("auth/register.html.jinja")
 
@@ -80,7 +80,7 @@ def login():
         if error is None:
             return login_user(user["id"])
 
-        flash(error)
+        flash(error, "error")
 
     return render_template("auth/login.html.jinja")
 
@@ -133,7 +133,7 @@ def google_login_callback():
 
     response_json = userinfo_response.json()
     if not response_json.get("email_verified"):
-        flash("Google authentication failed!")
+        flash("Google authentication failed!", "error")
         return redirect(url_for("auth.login"))
 
     user_google_id = userinfo_response.json()["sub"]
