@@ -9,7 +9,7 @@ requires-python = ">=3.10"
 Website = "http://www.rizhiy.com"
 
 [project.optional-dependencies]
-test = ["pytest", "pytest-cov", "replete[testing]"]
+test = ["pytest", "pytest-cov", "replete[testing]", "tenacity"]
 dev = ["black", "cryptography", "djlint", "isort", "pre-commit", "rizhiy-com[test]", "ruff", "watchdog"]
 
 [build-system]

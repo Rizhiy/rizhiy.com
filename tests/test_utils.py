@@ -1,8 +1,10 @@
 import pytest
+from tenacity import retry, stop_after_attempt, wait_fixed
 
 from rizhiy_com.utils import get_url_title
 
 
+@retry(wait=wait_fixed(10), stop=stop_after_attempt(5))
 @pytest.mark.parametrize(
     ("url", "expected"),
     [
