@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.11.3 (2024-08-20)
+
+### Fix
+
+* fix(wishlist): add text to clarify which items were reserved by the person ([`d38f340`](https://github.com/Rizhiy/rizhiy.com/commit/d38f3401421422c8e25109bb865c7da758ebd814))
+
+### Test
+
+* test: add retry for test_get_url_title ([`888f3c5`](https://github.com/Rizhiy/rizhiy.com/commit/888f3c5361c6b244a720d9a1a6a8202c950ecdb2))
+
 ## v0.11.2 (2024-08-20)
 
 ### Chore
