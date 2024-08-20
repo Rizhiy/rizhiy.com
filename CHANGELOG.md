@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## v0.11.2 (2024-08-20)
+
+### Chore
+
+* chore: force update during update_prod ([`d2c4722`](https://github.com/Rizhiy/rizhiy.com/commit/d2c47223357192813234c02664633065dcad15a0))
+
+* chore: restart nginx when updating prod ([`fd26f8f`](https://github.com/Rizhiy/rizhiy.com/commit/fd26f8f2f22c62b808cd9181405c6126e4cab804))
+
+* chore: adjust navbar color and add link to register on login ([`7ec8131`](https://github.com/Rizhiy/rizhiy.com/commit/7ec8131bd313ec3aa446df747be112b5322e6349))
+
+### Fix
+
+* fix(wishlist): allow to reserve upto 3 wishes and add success message ([`486d0b2`](https://github.com/Rizhiy/rizhiy.com/commit/486d0b299a55c29d1bc0542a3a041511fc23a0d9))
+
 ## v0.11.1 (2024-08-19)
 
 ### Fix
