@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.12.0 (2024-08-20)
+
+### Feature
+
+* feat(auth): limit pre_login memory to 5 minutes and remember page before logout ([`60a7045`](https://github.com/Rizhiy/rizhiy.com/commit/60a70452cb83a1d968cb7edbcb8976e4a9d97e39))
+
 ## v0.11.4 (2024-08-20)
 
 ### Fix

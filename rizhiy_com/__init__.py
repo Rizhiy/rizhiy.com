@@ -42,4 +42,4 @@ def create_app_for_proxy() -> Flask:
     return app
 
 
-__version__ = "0.11.4"
+__version__ = "0.12.0"
