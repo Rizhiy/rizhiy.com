@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.13.0 (2024-08-21)
+
+### Feature
+
+* feat(wishlist): add message about remaining wishes ([`bec853a`](https://github.com/Rizhiy/rizhiy.com/commit/bec853ade7dfb48f446ddeab4087a7500a922ac6))
+
 ## v0.12.0 (2024-08-20)
 
 ### Feature
