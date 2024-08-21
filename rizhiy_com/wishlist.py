@@ -140,6 +140,7 @@ def reserve(id_):
     db = get_db()
 
     new_reserved_user = None if wish["reserved_by"] else g.user["id"]
+    num_reserved_wishes = 0
 
     if new_reserved_user:
         num_reserved_wishes = db.execute("SELECT COUNT(*) FROM wish WHERE reserved_by = ?", (g.user["id"],)).fetchone()[
@@ -154,7 +155,14 @@ def reserve(id_):
 
     db.execute("UPDATE wish SET reserved_by = ? WHERE id = ?", (new_reserved_user, id_))
     db.commit()
-    flash(f"You have successfully {status} {wish['title']}", "message")
+    success_msg = f"You have successfully {status} {wish['title']}"
+    if new_reserved_user:
+        reserve_remaining = MAX_RESERVE - 1 - num_reserved_wishes
+        if reserve_remaining:
+            success_msg += f"\nYou can reserve {MAX_RESERVE - num_reserved_wishes - 1} more wishes"
+        else:
+            flash("You can't reserve any more wishes!", "warning")
+    flash(success_msg, "message")
     return redirect(url_for("wishlist.index"))
 
 

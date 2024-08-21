@@ -30,18 +30,23 @@ h3 {
   line-height: 1.2;
 }
 
-.flash-error {
-  color: #cc4040;
+.flash {
+  white-space: pre-wrap;
   width: 100%;
   text-align: center;
   font-weight: bold;
 }
 
+.flash-error {
+  color: #cc4040;
+}
+
+.flash-warning {
+  color: #bc9b08;
+}
+
 .flash-message {
   color: #40aa40;
-  width: 100%;
-  text-align: center;
-  font-weight: bold;
 }
 
 a {

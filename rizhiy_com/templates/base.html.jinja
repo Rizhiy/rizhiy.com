@@ -40,8 +40,15 @@
             </a>
         </nav>
     </header>
-    {% for message in get_flashed_messages(False, 'message') %}<div class="flash-message">{{ message }}</div>{% endfor %}
-    {% for message in get_flashed_messages(False, 'error') %}<div class="flash-error">{{ message }}</div>{% endfor %}
+    {% for message in get_flashed_messages(False, 'error') %}
+        <div class="flash-error flash">{{ message }}</div>
+    {% endfor %}
+    {% for message in get_flashed_messages(False, 'warning') %}
+        <div class="flash-warning flash">{{ message }}</div>
+    {% endfor %}
+    {% for message in get_flashed_messages(False, 'message') %}
+        <div class="flash-message flash">{{ message }}</div>
+    {% endfor %}
     <div id="content">
         {% block content %}{% endblock %}
     </div>
