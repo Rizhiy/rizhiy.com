@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.14.1 (2024-08-22)
+
+### Fix
+
+* fix(wishlist): improve text a bit ([`e319dd1`](https://github.com/Rizhiy/rizhiy.com/commit/e319dd137f820137e48efd71f8a0b9eb321f1ce8))
+
 ## v0.14.0 (2024-08-22)
 
 ### Feature
