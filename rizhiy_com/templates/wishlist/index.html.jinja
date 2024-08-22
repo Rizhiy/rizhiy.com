@@ -13,7 +13,8 @@
         </article>
         <hr id="wishlist-header-separator">
         {% for wish in wishes %}
-            <article id="wish-{{ wish['id'] }}" class="wish">
+            <article id="wish-{{ wish['id'] }}"
+                     class="wish {% if wish['reserved_by'] and wish['reserved_by'] != g.user['id'] %}reserved{% endif %}">
                 <div class="wish-img">
                     {% if wish["picture_url"] %}<img src="{{ wish["picture_url"] }}" alt="Wish image">{% endif %}
                 </div>

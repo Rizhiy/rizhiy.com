@@ -61,6 +61,17 @@
   color: gray;
 }
 
+.reserved .wish-title,
+.reserved .wish-text-desc,
+.reserved .wish-text-links,
+.reserved .wish-price {
+  text-decoration: line-through;
+}
+
+.reserved .wish-img img {
+  filter: grayscale(1);
+}
+
 .wish-reserve {
   width: 5em;
   min-width: 5em;
