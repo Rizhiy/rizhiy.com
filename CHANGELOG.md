@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.14.0 (2024-08-22)
+
+### Feature
+
+* feat(wishlist): indicate reserved wishes a bit better ([`9332a11`](https://github.com/Rizhiy/rizhiy.com/commit/9332a11aa45f48d5d1e169ccafc66687a2efe87a))
+
 ## v0.13.0 (2024-08-21)
 
 ### Feature
