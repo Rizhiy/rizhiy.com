@@ -90,6 +90,11 @@
     display: inline-block;
   }
 
+  /* Required because of inline-block */
+  .reserved .wish-price>div {
+    text-decoration: line-through;
+  }
+
   .usd-price {
     padding-top: 0;
   }
