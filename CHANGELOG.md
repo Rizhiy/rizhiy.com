@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v0.15.0 (2024-08-22)
+
+### Feature
+
+* feat(auth): add logo to google sign in ([`482d6bb`](https://github.com/Rizhiy/rizhiy.com/commit/482d6bbbd80ac4989c01f58e8a68760ea2e32655))
+
 ## v0.14.2 (2024-08-22)
 
 ### Fix
