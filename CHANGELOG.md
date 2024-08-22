@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v0.14.2 (2024-08-22)
+
+### Fix
+
+* fix(wishlist): fix line-through for price on mobile ([`8607ff9`](https://github.com/Rizhiy/rizhiy.com/commit/8607ff9110fd44d00ad47a671506e623942c5b32))
+
+### Performance
+
+* perf: load font-awesome only on main page ([`9b34c8e`](https://github.com/Rizhiy/rizhiy.com/commit/9b34c8eb9b4aa38d85c5d6e009bdc5afd64d84c7))
+
 ## v0.14.1 (2024-08-22)
 
 ### Fix
