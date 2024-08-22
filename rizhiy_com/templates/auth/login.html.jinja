@@ -1,6 +1,6 @@
-{% extends "base.html.jinja" %}
+{% extends "auth/base.html.jinja" %}
 {% block title %}Log In{% endblock %}
-{% block content %}
+{% block auth %}
     <form method="post">
         <input type="username"
                name="username"
@@ -15,8 +15,4 @@
         <input type="submit" value="Log In" />
     </form>
     First time? <a href="{{ url_for("auth.register") }}">Register</a>
-    <hr>
-    <form action="{{ url_for("auth.google_login") }}">
-        <input type="submit" value="Google Login" />
-    </form>
 {% endblock %}

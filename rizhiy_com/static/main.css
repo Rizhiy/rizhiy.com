@@ -98,3 +98,31 @@ form>input {
     color: #68cc88;
   }
 }
+
+#sign-in-separator {
+  display: flex;
+  align-items: center;
+}
+
+#sign-in-separator>hr {
+  flex: 1;
+  height: 0;
+  margin: 0.5em;
+  border-bottom: 1px solid lightgray;
+  border-top: 0;
+}
+
+#google-sign-in {
+  margin: 0.5em auto;
+  font-weight: bold;
+}
+
+#google-sign-in>* {
+  display: inline-block;
+}
+
+#google-sign-in>img {
+  height: 1.5em;
+  vertical-align: middle;
+  margin: 0.3em 0.3em 0.3em 0.3em;
+}

@@ -6,3 +6,7 @@ function open_nav() {
     navbar.className = "closed";
   }
 }
+
+function submit_form() {
+  this.closest("form").submit();
+}
