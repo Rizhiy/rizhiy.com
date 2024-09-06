@@ -16,7 +16,7 @@ from werkzeug.wrappers.response import Response
 
 from rizhiy_com.auth import login_required
 from rizhiy_com.db import get_db
-from rizhiy_com.utils import CURRENT_DIR, HEADERS, get_exchange_rate, get_id, get_url_title
+from rizhiy_com.utils import CURRENT_DIR, HEADERS, get_exchange_rate, get_id
 
 LOGGER = logging.getLogger(__name__)
 
@@ -120,6 +120,7 @@ def add():
 def edit(id_):
     check_is_rizhiy()
 
+    db = get_db()
     wish = get_wish(id_)
     wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (id_,)).fetchall()
     if not wish:
