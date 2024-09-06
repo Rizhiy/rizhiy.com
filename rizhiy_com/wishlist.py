@@ -16,7 +16,7 @@ from werkzeug.wrappers.response import Response
 
 from rizhiy_com.auth import login_required
 from rizhiy_com.db import get_db
-from rizhiy_com.utils import CURRENT_DIR, HEADERS, get_exchange_rate, get_id
+from rizhiy_com.utils import CURRENT_DIR, HEADERS, get_exchange_rate, get_id, get_url_title
 
 LOGGER = logging.getLogger(__name__)
 
@@ -93,11 +93,10 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
     db.execute("DELETE FROM wish_link WHERE wish_id = ?", (id_,))  # Add this line to delete existing links
     for link in request.form.get("links", "").splitlines():
         link = link.strip()
-        link_text = get_url_title(link)
         link_id = get_id()
         db.execute(
             "INSERT INTO wish_link (id, url, desc, wish_id) VALUES (?, ?, ?, ?)",
-            (link_id, link, link_text, id_),
+            (link_id, link, link, id_),
         )
     db.commit()
 
