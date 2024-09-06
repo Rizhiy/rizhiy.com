@@ -44,6 +44,14 @@ def get_url_title(url: str) -> str:
         return "Discogs"
     if "ebay" in urlparse(url).netloc:
         return "Ebay"
+    if "amazon" in urlparse(url).netloc:
+        soup = get_soup_for_url(url)
+        title_tag = soup.find("span", {"id": "productTitle"})
+        if title_tag:
+            title = title_tag.text.strip()
+            if len(title) > 30:
+                title = title[:27] + "..."
+            return f"Amazon.co.uk: {title}"
     website_name = get_url_website_base_name(url)
     title = get_soup_for_url(url).title
     title = title.text.strip() if title else ""
