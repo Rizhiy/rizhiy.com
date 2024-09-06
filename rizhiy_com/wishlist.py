@@ -91,13 +91,13 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
         (id_, title, *(request.form[field] for field in fields)),
     )
     db.execute("DELETE FROM wish_link WHERE wish_id = ?", (id_,))  # Add this line to delete existing links
-    for link in request.form.getlist("links"):
-        link_url = link["url"].strip()
-        link_desc = link["desc"].strip()
+    for link in request.form.get("links", "").splitlines():
+        link = link.strip()
+        link_text = get_url_title(link)
         link_id = get_id()
         db.execute(
             "INSERT INTO wish_link (id, url, desc, wish_id) VALUES (?, ?, ?, ?)",
-            (link_id, link_url, link_desc, id_),
+            (link_id, link, link_text, id_),
         )
     db.commit()
 
