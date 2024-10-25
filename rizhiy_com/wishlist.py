@@ -79,25 +79,55 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
     title = request.form["title"]
     if not title:
         flash("Title is required!", "error")
-        redirect(url_for("wishlist.add"))
+        return redirect(url_for("wishlist.add" if id_ is None else "wishlist.edit", id_=id_))
 
     id_ = id_ or get_id()
-
     db = get_db()
+    
+    # Update or insert wish details
     fields = ["desc", "rough_price", "currency", "picture_url"]
-    # TODO: Need to download the image and save locally
-    db.execute(
-        f"INSERT OR REPLACE INTO wish (id, title, {', '.join(fields)}, reserved_by) VALUES (?, ?, ?, ?, ?, ?, NULL)",  # noqa: S608
-        (id_, title, *(request.form[field] for field in fields)),
-    )
-    for link in request.form.get("links", "").splitlines():
-        link = link.strip()
-        link_text = get_url_title(link)
-        link_id = get_id()
+    if id_ == get_id():  # New wish
         db.execute(
-            "INSERT INTO wish_link (id, url, desc, wish_id) VALUES (?, ?, ?, ?)",
-            (link_id, link, link_text, id_),
+            f"INSERT INTO wish (id, title, {', '.join(fields)}, reserved_by) VALUES (?, ?, ?, ?, ?, ?, NULL)",  # noqa: S608
+            (id_, title, *(request.form[field] for field in fields))
         )
+    else:  # Update existing wish
+        db.execute(
+            f"UPDATE wish SET title = ?, {', '.join(f'{field} = ?' for field in fields)} WHERE id = ?",
+            (title, *(request.form[field] for field in fields), id_)
+        )
+
+    # Handle links
+    link_urls = request.form.getlist('link_urls[]')
+    link_descs = request.form.getlist('link_descs[]')
+    link_ids = request.form.getlist('link_ids[]')
+
+    # Delete all existing links not in the form
+    existing_link_ids = {id_ for id_ in link_ids if id_}
+    if existing_link_ids:
+        db.execute(
+            "DELETE FROM wish_link WHERE wish_id = ? AND id NOT IN (?)",
+            (id_, ','.join(existing_link_ids))
+        )
+    else:
+        db.execute("DELETE FROM wish_link WHERE wish_id = ?", (id_,))
+
+    # Update or insert links
+    for url, desc, link_id in zip(link_urls, link_descs, link_ids):
+        if not url.strip():
+            continue
+        if not desc.strip():
+            desc = get_url_title(url)
+        if link_id:
+            db.execute(
+                "UPDATE wish_link SET url = ?, desc = ? WHERE id = ?",
+                (url, desc, link_id)
+            )
+        else:
+            db.execute(
+                "INSERT INTO wish_link (id, url, desc, wish_id) VALUES (?, ?, ?, ?)",
+                (get_id(), url, desc, id_)
+            )
     db.commit()
 
     return redirect(url_for("wishlist.index"))
@@ -119,6 +149,7 @@ def add():
 def edit(id_):
     check_is_rizhiy()
 
+    db = get_db()
     wish = get_wish(id_)
     if not wish:
         flash("Invalid wish id provided", "error")
@@ -126,7 +157,10 @@ def edit(id_):
 
     if request.method == "POST":
         return insert_or_update(request, id_)
-    return render_template("wishlist/edit.html.jinja", wish=wish)
+
+    # Get links for the wish
+    links = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (id_,)).fetchall()
+    return render_template("wishlist/edit.html.jinja", wish=wish, links=links)
 
 
 @bp.route("/<id_>/reserve", methods=("GET",))
