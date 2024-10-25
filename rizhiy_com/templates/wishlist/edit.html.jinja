@@ -21,9 +21,20 @@
                value="{{ wish['currency'] }}" />
         <label for="picture_url"></label>
         <input name="picture_url" id="picture_url" value="{{ wish['picture_url'] }}" />
-        <!-- Add some javascript to be able to add links individually -->
-        <label for="links">Links</label>
-        <textarea name="links" id="links" disabled>Can't edit links for now</textarea>
+        <div id="links-section">
+            <label>Links</label>
+            <div id="existing-links">
+                {% for link in links %}
+                <div class="link-entry" data-link-id="{{ link.id }}">
+                    <input type="text" name="link_urls[]" value="{{ link.url }}" placeholder="URL" required />
+                    <input type="text" name="link_descs[]" value="{{ link.desc }}" placeholder="Description" />
+                    <button type="button" class="remove-link">Remove</button>
+                    <input type="hidden" name="link_ids[]" value="{{ link.id }}" />
+                </div>
+                {% endfor %}
+            </div>
+            <button type="button" id="add-link">Add Link</button>
+        </div>
         <input type="submit" value="Save" />
     </form>
 {% endblock %}

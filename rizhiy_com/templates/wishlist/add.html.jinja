@@ -11,9 +11,12 @@
         <input name="currency" id="currency" placeholder="USD" />
         <label for="picture_url">Picture_URL</label>
         <input name="picture_url" id="picture_url" />
-        <!-- Add some javascript to be able to add links individually -->
-        <label for="links">Links</label>
-        <textarea name="links" id="links"></textarea>
+        <div id="links-section">
+            <label>Links</label>
+            <div id="existing-links">
+            </div>
+            <button type="button" id="add-link">Add Link</button>
+        </div>
         <input type="submit" value="Save" />
     </form>
 {% endblock %}
