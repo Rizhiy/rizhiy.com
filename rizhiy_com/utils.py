@@ -34,9 +34,7 @@ def get_url_website_base_name(url: str) -> str:
     if not title:
         return ""
     title = title.text.strip().split(maxsplit=1)[0]
-    if title.endswith(":"):
-        title = title[:-1]
-    return title
+    return title.removesuffix(":")
 
 
 def get_url_title(url: str) -> str:
