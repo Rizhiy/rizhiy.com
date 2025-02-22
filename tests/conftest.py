@@ -14,7 +14,15 @@ _data_sql = (Path(__file__).parent / "data.sql").read_bytes().decode("utf8")
 def app():
     db_fd, db_path = tempfile.mkstemp()
 
-    app = create_app({"TESTING": True, "DATABASE": db_path, "SECRET_KEY": "testing"})
+    app = create_app(
+        {
+            "TESTING": True,
+            "DATABASE": db_path,
+            "SECRET_KEY": "testing",
+            "RIZHIY_ID": "rizhiy_user_id",
+            "CURRENT_URL": "localhost",
+        },
+    )
 
     with app.app_context():
         init_db()

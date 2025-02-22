@@ -23,7 +23,22 @@
         <input name="picture_url" id="picture_url" value="{{ wish['picture_url'] }}" />
         <!-- Add some javascript to be able to add links individually -->
         <label for="links">Links</label>
-        <textarea name="links" id="links" disabled>Can't edit links for now</textarea>
+        <div id="links-container">
+            {% for link in wish['links'] %}
+                <div class="link-item">
+                    <input type="text"
+                           name="link_urls"
+                           value="{{ link['url'] }}"
+                           placeholder="Link URL" />
+                    <input type="text"
+                           name="link_descs"
+                           value="{{ link['desc'] }}"
+                           placeholder="Link Description" />
+                </div>
+            {% endfor %}
+        </div>
+        <button type="button" onclick="addLinkField()">Add another link</button>
+        <textarea name="links" id="links" style="display:none;">{% for link in wish['links'] %}{{ link['url'] }}\n{% endfor %}</textarea>
         <input type="submit" value="Save" />
     </form>
 {% endblock %}

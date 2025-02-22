@@ -13,7 +13,13 @@
         <input name="picture_url" id="picture_url" />
         <!-- Add some javascript to be able to add links individually -->
         <label for="links">Links</label>
-        <textarea name="links" id="links"></textarea>
+        <div id="links-container">
+            <div class="link-item">
+                <input type="text" name="link_urls" placeholder="Link URL" />
+                <input type="text" name="link_descs" placeholder="Link Description" />
+            </div>
+        </div>
+        <button type="button" onclick="addLinkField()">Add another link</button>
         <input type="submit" value="Save" />
     </form>
 {% endblock %}

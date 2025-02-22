@@ -10,3 +10,14 @@ form #rough_price,
 form #currency {
   display: inline-block;
 }
+
+form .link-item input {
+  display: inline-block;
+  width: 45%;
+  margin: 0 5px;
+}
+
+form button {
+  display: block;
+  margin: 10px auto;
+}

@@ -37,7 +37,9 @@ def get_wish(wish_id: str) -> dict[str, Any]:
     db = get_db()
     query = db.execute("SELECT * FROM wish WHERE id = ?", (wish_id,))
     columns = [d[0] for d in query.description]
-    return dict(zip(columns, query.fetchone(), strict=False))
+    wish = dict(zip(columns, query.fetchone(), strict=False))
+    wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (wish_id,)).fetchall()
+    return wish
 
 
 @bp.route("/")
@@ -90,14 +92,19 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
         f"INSERT OR REPLACE INTO wish (id, title, {', '.join(fields)}, reserved_by) VALUES (?, ?, ?, ?, ?, ?, NULL)",  # noqa: S608
         (id_, title, *(request.form[field] for field in fields)),
     )
-    for link in request.form.get("links", "").splitlines():
-        link = link.strip()
-        link_text = get_url_title(link)
-        link_id = get_id()
-        db.execute(
-            "INSERT INTO wish_link (id, url, desc, wish_id) VALUES (?, ?, ?, ?)",
-            (link_id, link, link_text, id_),
-        )
+    link_urls = request.form.getlist("link_urls") or []
+    link_descs = request.form.getlist("link_descs") or []
+
+    db.execute("DELETE FROM wish_link WHERE wish_id = ?", (id_,))
+    for url, desc in zip(link_urls, link_descs, strict=False):
+        url = url.strip()
+        desc = desc or get_url_title(url)
+        if url:
+            link_id = get_id()
+            db.execute(
+                "INSERT INTO wish_link (id, url, desc, wish_id) VALUES (?, ?, ?, ?)",
+                (link_id, url, desc, id_),
+            )
     db.commit()
 
     return redirect(url_for("wishlist.index"))
