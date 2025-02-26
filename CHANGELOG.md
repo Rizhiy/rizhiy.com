@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.17.0 (2025-02-26)
+
+### Features
+
+- Improve style with the help of AI
+  ([`e69828f`](https://github.com/Rizhiy/rizhiy.com/commit/e69828f20ee454d03222aec6d39078e707a12833))
+
+
 ## v0.16.0 (2025-02-22)
 
 ### Code Style
