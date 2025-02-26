@@ -1,13 +1,22 @@
 {% extends "auth/base.html.jinja" %}
 {% block title %}Register{% endblock %}
 {% block auth %}
-    <form method="post">
-        <input name="username" id="username" required placeholder="username" />
+    <form method="post" class="auth-form">
+        <label for="username">Username</label>
+        <input type="text"
+               name="username"
+               id="username"
+               required
+               placeholder="Choose a username" />
+        <label for="password">Password</label>
         <input type="password"
                name="password"
                id="password"
                required
-               placeholder="password" />
+               placeholder="Create a password" />
         <input type="submit" value="Register" />
     </form>
+    <div class="register-link">
+        Already have an account? <a href="{{ url_for("auth.login") }}" class="button">Log In</a>
+    </div>
 {% endblock %}

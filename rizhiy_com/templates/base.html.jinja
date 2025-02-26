@@ -13,13 +13,15 @@
 <body>
     <header id="header">
         <nav id="navbar" class="closed">
-            <a href="{{ url_for("index") }}" class="left">Home</a>
-            <a href="{{ url_for("wishlist.index") }}" class="left">Wishlist</a>
+            <a href="{{ url_for("index") }}" class="home-link">Home</a>
+            <a href="{{ url_for("wishlist.index") }}" class="center-link">Wishlist</a>
             {% if g.user == None %}
-                <a href="{{ url_for("auth.login") }}" class="right">Log in</a>
-                <a href="{{ url_for("auth.register") }}" class="right">Register</a>
+                <div class="auth-links">
+                    <a href="{{ url_for("auth.login") }}">Log in</a>
+                    <a href="{{ url_for("auth.register") }}">Register</a>
+                </div>
             {% else %}
-                <div id="user-part" class="right">
+                <div id="user-part">
                     {% if g.user["picture_url"] == None %}
                         <div id="user-icon">
                             <i>{{ g.user["username"].0.upper() }}</i>
@@ -34,7 +36,7 @@
                     <a href="{{ url_for("auth.logout") }}">Log out</a>
                 </div>
             {% endif %}
-            <a class="right icon" onclick="open_nav()">
+            <a class="icon" onclick="open_nav()">
                 <i class="fa fa-bars"></i>
             </a>
         </nav>

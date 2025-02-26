@@ -1,17 +1,21 @@
 {% extends "base.html.jinja" %}
 {% block title %}New Wish{% endblock %}
 {% block content %}
-    <form method="post">
+    <form method="post" class="wish-form">
         <label for="title">Title</label>
-        <input name="title" id="title" placeholder="A wish" required />
+        <input type="text" name="title" id="title" placeholder="A wish" required />
         <label for="desc">Description</label>
-        <textarea name="desc" id="desc"></textarea>
+        <textarea name="desc" id="desc" placeholder="Describe your wish..."></textarea>
         <label for="rough_price">Price</label>
-        <input name="rough_price" id="rough_price" placeholder="0.00" />
-        <input name="currency" id="currency" placeholder="USD" />
-        <label for="picture_url">Picture_URL</label>
-        <input name="picture_url" id="picture_url" />
-        <!-- Add some javascript to be able to add links individually -->
+        <div class="price-container">
+            <input type="text" name="rough_price" id="rough_price" placeholder="0.00" />
+            <input type="text" name="currency" id="currency" placeholder="USD" />
+        </div>
+        <label for="picture_url">Picture URL</label>
+        <input type="text"
+               name="picture_url"
+               id="picture_url"
+               placeholder="https://example.com/image.jpg" />
         <label for="links">Links</label>
         <div id="links-container">
             <div class="link-item">
@@ -20,6 +24,6 @@
             </div>
         </div>
         <button type="button" onclick="addLinkField()">Add another link</button>
-        <input type="submit" value="Save" />
+        <input type="submit" value="Save Wish" />
     </form>
 {% endblock %}

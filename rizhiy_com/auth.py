@@ -178,6 +178,10 @@ def login_required(view):
     @wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
+            # Check if this is a reservation attempt (URL contains '/reserve')
+            if "/reserve" in request.path:
+                flash("You need to be logged in to reserve wishes.", "warning")
+
             session["pre_login"] = {"url": get_redirect_url_base(request), "timestamp": dt.datetime.now().timestamp()}
             return redirect(url_for("auth.login"))
 

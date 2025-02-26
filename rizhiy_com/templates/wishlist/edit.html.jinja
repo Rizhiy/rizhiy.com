@@ -1,27 +1,47 @@
 {% extends "base.html.jinja" %}
 {% block title %}Edit Wish{% endblock %}
 {% block content %}
-    <form method="post">
+    <form method="post" class="wish-form">
         <label for="title">Title</label>
-        <input name="title"
+        <input type="text"
+               name="title"
                id="title"
                placeholder="A wish"
                value="{{ wish['title'] }}"
                required />
         <label for="desc">Description</label>
-        <textarea name="desc" id="desc">{{ wish['desc'] }}</textarea>
+        <textarea name="desc" id="desc" placeholder="Describe your wish...">{{ wish['desc'] }}</textarea>
         <label for="rough_price">Price</label>
-        <input name="rough_price"
-               id="rough_price"
-               placeholder="0.00"
-               value="{{ wish['rough_price'] }}" />
-        <input name="currency"
-               id="currency"
-               placeholder="USD"
-               value="{{ wish['currency'] }}" />
-        <label for="picture_url"></label>
-        <input name="picture_url" id="picture_url" value="{{ wish['picture_url'] }}" />
-        <!-- Add some javascript to be able to add links individually -->
+        <div class="price-container">
+            <input type="text"
+                   name="rough_price"
+                   id="rough_price"
+                   placeholder="0.00"
+                   value="{{ wish['rough_price'] }}" />
+            <input type="text"
+                   name="currency"
+                   id="currency"
+                   placeholder="USD"
+                   value="{{ wish['currency'] }}" />
+        </div>
+        <label for="picture_url">Picture URL</label>
+        <div class="picture-container">
+            <input type="text"
+                   name="picture_url"
+                   id="picture_url"
+                   placeholder="https://example.com/image.jpg"
+                   value="{{ wish['picture_url'] }}" />
+            {% if wish['picture_url'] %}
+                <div class="image-preview">
+                    {% if wish['picture_url'].startswith('static://') %}
+                        <img src="{{ url_for('static', filename=wish['picture_url'][9:]) }}"
+                             alt="Image preview" />
+                    {% else %}
+                        <img src="{{ wish['picture_url'] }}" alt="Image preview" />
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
         <label for="links">Links</label>
         <div id="links-container">
             {% for link in wish['links'] %}
@@ -39,6 +59,6 @@
         </div>
         <button type="button" onclick="addLinkField()">Add another link</button>
         <textarea name="links" id="links" style="display:none;">{% for link in wish['links'] %}{{ link['url'] }}\n{% endfor %}</textarea>
-        <input type="submit" value="Save" />
+        <input type="submit" value="Save Changes" />
     </form>
 {% endblock %}

@@ -1,16 +1,16 @@
 {% extends "base.html.jinja" %}
 {% block content %}
-    {% block auth %}{% endblock %}
-    <div id="sign-in-separator">
-        <hr>
-        or sign in with
-        <hr>
+    <div id="auth">
+        {% block auth %}{% endblock %}
     </div>
-    <form action="{{ url_for("auth.google_login") }}">
-        <button id="google-sign-in" onclick="submit_form()">
-            <img src="{{ url_for('static', filename='images/google-logo-small.png') }}"
-                 alt="google logo">
-            Google
-        </button>
-    </form>
+    <div class="separator">or</div>
+    <div class="google-container auth-form">
+        <form action="{{ url_for("auth.google_login") }}">
+            <button class="google-button" type="submit">
+                <img src="{{ url_for('static', filename='images/google_logo.png') }}"
+                     alt="Google logo" />
+                <span>Sign in with Google</span>
+            </button>
+        </form>
+    </div>
 {% endblock %}
