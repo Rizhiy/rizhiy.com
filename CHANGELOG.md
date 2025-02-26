@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.17.1 (2025-02-26)
+
+### Bug Fixes
+
+- Update google img
+  ([`090cdd8`](https://github.com/Rizhiy/rizhiy.com/commit/090cdd895924d787f30144ae0dc31c89fed2f07c))
+
+
 ## v0.17.0 (2025-02-26)
 
 ### Features
