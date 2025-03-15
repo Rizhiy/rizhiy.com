@@ -43,7 +43,7 @@
                         {% if wish["rough_price"] %}
                             <div class="amount">{{ wish["rough_price"] }}</div>
                             <div class="currency">{{ wish["currency"] }}</div>
-                            <div class="usd-price">${{ wish["usd_price"] }}</div>
+                            {% if wish["usd-price"] %}<div class="usd-price">${{ wish["usd_price"] }}</div>{% endif %}
                         {% else %}
                             -
                         {% endif %}

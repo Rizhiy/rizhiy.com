@@ -51,15 +51,19 @@ def index():
 
     for wish in wishes:
         if isinstance(wish["rough_price"], int | float):
-            wish["usd_price"] = wish["rough_price"] * get_exchange_rate(wish["currency"])
-        else:
-            wish["usd_price"] = 0.0
+            try:
+                wish["usd_price"] = wish["rough_price"] * get_exchange_rate(wish["currency"])
+            except Exception:
+                LOGGER.exception(f"Couldn't get exchange rate for {wish['currency']}")
+                wish["usd_price"] = None
+
         if wish["picture_url"].startswith(SAVED_IMG_PREFIX):
             wish["picture_url"] = url_for("static", filename=wish["picture_url"][SAVED_IMG_PREFIX_LEN:])
 
         wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (wish["id"],)).fetchall()
     for wish in wishes:
-        wish["usd_price"] = math.ceil(wish["usd_price"])
+        if wish["usd_price"]:
+            wish["usd_price"] = math.ceil(wish["usd_price"])
     available, all_reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
     wishes = []
 
@@ -70,7 +74,7 @@ def index():
         all_reserved.remove(reserved)
     wishes.extend(user_reserved)
 
-    available = sorted(available, key=lambda w: float(w["usd_price"]))
+    available = sorted(available, key=lambda w: w["usd_price"] or 0)
     wishes.extend(available)
     wishes.extend(all_reserved)
 
