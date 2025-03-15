@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v0.17.2 (2025-03-15)
+
+### Bug Fixes
+
+- Handle error during currency conversion
+  ([`3891230`](https://github.com/Rizhiy/rizhiy.com/commit/3891230a5d0c1a18e29dbcd93c67bc9b32400b5e))
+
+
 ## v0.17.1 (2025-02-26)
 
 ### Bug Fixes
