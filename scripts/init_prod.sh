@@ -32,7 +32,7 @@ sudo systemctl restart waitress
 conda run -n "$env_name" --no-capture-output pip install certbot certbot-nginx
 certbot_exe="$(conda run -n "$env_name" which certbot)"
 pip_exe="$(conda run -n "$env_name" which pip)"
-sudo "$certbot_exe" run --nginx -d rizhiy.ddns.net -n
+sudo "$certbot_exe" run --nginx --redirect -d rizhiy.com -n
 sudo service nginx restart
 ## Setup update
 echo "0 0,12 * * * root python -c 'import random; import time; time.sleep(random.random() * 1800)' && sudo "$certbot_exe" renew -q" | sudo tee -a /etc/crontab > /dev/null
