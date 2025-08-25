@@ -90,10 +90,16 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
 
     db = get_db()
     fields = ["desc", "rough_price", "currency", "picture_url"]
-    # TODO: Need to download the image and save locally
+
+    # Preserve existing reservation if updating
+    existing_reservation = None
+    existing = db.execute("SELECT reserved_by FROM wish WHERE id = ?", (id_,)).fetchone()
+    if existing:
+        existing_reservation = existing[0]
+
     db.execute(
-        f"INSERT OR REPLACE INTO wish (id, title, {', '.join(fields)}, reserved_by) VALUES (?, ?, ?, ?, ?, ?, NULL)",  # noqa: S608
-        (id_, title, *(request.form[field] for field in fields)),
+        f"INSERT OR REPLACE INTO wish (id, title, {', '.join(fields)}, reserved_by) VALUES (?, ?, ?, ?, ?, ?, ?)",  # noqa: S608
+        (id_, title, *(request.form[field] for field in fields), existing_reservation),
     )
     link_urls = request.form.getlist("link_urls") or []
     link_descs = request.form.getlist("link_descs") or []

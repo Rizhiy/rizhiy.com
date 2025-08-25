@@ -192,7 +192,7 @@ def login_required(view):
 
 @bp.after_app_request
 def save_response(r):
-    if request.method == "POST" or request.endpoint == "static":
+    if request.method == "POST" or request.endpoint in {"static", "wishlist.serve_picture"}:
         return r
 
     session["prev_page"] = (request.endpoint, request.view_args)
