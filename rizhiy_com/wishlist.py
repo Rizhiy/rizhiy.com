@@ -5,9 +5,8 @@ from typing import Any
 from urllib.parse import urlparse
 from uuid import uuid4
 
-import click
 import requests
-from flask import Blueprint, current_app, flash, g, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, g, redirect, render_template, request, send_from_directory, url_for
 from PIL import Image
 from replete import split_list
 from werkzeug.exceptions import abort
@@ -16,11 +15,11 @@ from werkzeug.wrappers.response import Response
 
 from rizhiy_com.auth import login_required
 from rizhiy_com.db import get_db
-from rizhiy_com.utils import CURRENT_DIR, HEADERS, get_exchange_rate, get_id, get_url_title
+from rizhiy_com.utils import HEADERS, get_exchange_rate, get_id, get_url_title
 
 LOGGER = logging.getLogger(__name__)
 
-SAVED_IMG_PREFIX = "static://"
+SAVED_IMG_PREFIX = "processed://"
 SAVED_IMG_PREFIX_LEN = len(SAVED_IMG_PREFIX)
 SAVED_IMG_SIZE = 256, 256
 MAX_RESERVE = 3
@@ -58,11 +57,11 @@ def index():
                 wish["usd_price"] = None
 
         if wish["picture_url"].startswith(SAVED_IMG_PREFIX):
-            wish["picture_url"] = url_for("static", filename=wish["picture_url"][SAVED_IMG_PREFIX_LEN:])
+            wish["picture_url"] = url_for("wishlist.serve_picture", path=wish["picture_url"][SAVED_IMG_PREFIX_LEN:])
 
         wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (wish["id"],)).fetchall()
     for wish in wishes:
-        if wish["usd_price"]:
+        if wish.get("usd_price"):
             wish["usd_price"] = math.ceil(wish["usd_price"])
     available, all_reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
     wishes = []
@@ -74,7 +73,7 @@ def index():
         all_reserved.remove(reserved)
     wishes.extend(user_reserved)
 
-    available = sorted(available, key=lambda w: w["usd_price"] or 0)
+    available = sorted(available, key=lambda w: w.get("usd_price") or 0)
     wishes.extend(available)
     wishes.extend(all_reserved)
 
@@ -110,6 +109,8 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
                 (link_id, url, desc, id_),
             )
     db.commit()
+
+    save_wish_img(id_)
 
     return redirect(url_for("wishlist.index"))
 
@@ -200,25 +201,19 @@ def save_wish_img(wish_id: str) -> None:
 
     tmp_path.write_bytes(requests.get(img_url, headers=HEADERS).content)
 
-    static_dir = CURRENT_DIR / "static"
-    save_path = static_dir / "images" / f"{uuid4()}{tmp_path.suffix}"
+    pictures_dir = Path(current_app.instance_path) / "pictures"
+    save_path = pictures_dir / f"{uuid4()}{tmp_path.suffix}"
     save_path.parent.mkdir(exist_ok=True, parents=True)
     with Image.open(tmp_path) as img:
         img.thumbnail(SAVED_IMG_SIZE)
         img.save(save_path)
 
-    db_path = f"{SAVED_IMG_PREFIX}{save_path.relative_to(static_dir)}"
+    db_path = f"{SAVED_IMG_PREFIX}{save_path.relative_to(pictures_dir)}"
     db.execute("UPDATE wish SET picture_url = ? WHERE id = ?", (db_path, wish_id))
     db.commit()
 
 
-@bp.cli.add_command
-@click.command("update-images")
-def update_all_img():
-    db = get_db()
-    all_wish_ids = [w[0] for w in db.execute("SELECT id FROM wish").fetchall()]
-    for wish_id in all_wish_ids:
-        try:
-            save_wish_img(wish_id)
-        except Exception:  # noqa: PERF203
-            LOGGER.exception("Failed to create image thumbnail")
+@bp.route("/pictures/<path:path>")
+def serve_picture(path):
+    # Using request args for path will expose you to directory traversal attacks
+    return send_from_directory(Path(current_app.instance_path) / "pictures", path)

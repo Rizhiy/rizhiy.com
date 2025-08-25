@@ -26,6 +26,7 @@ def create_app(test_config=None) -> Flask:
         app.config.from_mapping(test_config)
 
     Path(app.instance_path).mkdir(exist_ok=True, parents=True)
+    (Path(app.instance_path) / "pictures").mkdir(exist_ok=True)
     init_app(app)
 
     app.register_blueprint(index.bp)

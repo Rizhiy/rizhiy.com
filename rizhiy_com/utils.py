@@ -3,14 +3,13 @@ import pickle  # noqa: S403
 import uuid
 from copy import copy
 from functools import cache
-from pathlib import Path
 from urllib.parse import urlparse
 
 import bs4
 import requests
 from currency_converter import CurrencyConverter
+from flask import current_app
 
-CURRENT_DIR = Path(__file__).parent
 CURRENCY_CONVERTER = CurrencyConverter()
 
 HEADERS = {
@@ -30,6 +29,8 @@ def get_url_website_base_name(url: str) -> str:
     split_url = urlparse(url)
     split_url = split_url._replace(path="", params="", query="", fragment="")
     url = split_url.geturl()
+    if not url:
+        return ""
     title = get_soup_for_url(url).title
     if not title:
         return ""
@@ -38,6 +39,8 @@ def get_url_website_base_name(url: str) -> str:
 
 
 def get_url_title(url: str) -> str:
+    if not url:
+        return ""
     if "discogs" in urlparse(url).netloc:
         return "Discogs"
     if "ebay" in urlparse(url).netloc:
@@ -54,7 +57,7 @@ def get_url_title(url: str) -> str:
 def get_exchange_rate(currency: str) -> float:
     if currency == "USD":
         return 1.0
-    cache_path = CURRENT_DIR / ".currency_cache" / f"{currency}.pkl"
+    cache_path = current_app.instance_dir / ".currency_cache" / f"{currency}.pkl"
     if not cache_path.exists():
         cache_path.parent.mkdir(exist_ok=True)
         rate = float(CURRENCY_CONVERTER.convert(1, currency, "USD"))
