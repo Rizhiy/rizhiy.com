@@ -3,6 +3,7 @@ import pickle  # noqa: S403
 import uuid
 from copy import copy
 from functools import cache
+from pathlib import Path
 from urllib.parse import urlparse
 
 import bs4
@@ -57,7 +58,7 @@ def get_url_title(url: str) -> str:
 def get_exchange_rate(currency: str) -> float:
     if currency == "USD":
         return 1.0
-    cache_path = current_app.instance_dir / ".currency_cache" / f"{currency}.pkl"
+    cache_path = Path(current_app.instance_path) / ".currency_cache" / f"{currency}.pkl"
     if not cache_path.exists():
         cache_path.parent.mkdir(exist_ok=True)
         rate = float(CURRENCY_CONVERTER.convert(1, currency, "USD"))
