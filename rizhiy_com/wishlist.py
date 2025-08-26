@@ -15,7 +15,7 @@ from werkzeug.wrappers.response import Response
 
 from rizhiy_com.auth import login_required
 from rizhiy_com.db import get_db
-from rizhiy_com.utils import HEADERS, get_exchange_rate, get_id, get_url_title
+from rizhiy_com.utils import HEADERS, get_exchange_rate, get_id, get_url_title, send_to_prev_page
 
 LOGGER = logging.getLogger(__name__)
 
@@ -80,7 +80,7 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
     title = request.form["title"]
     if not title:
         flash("Title is required!", "error")
-        redirect(url_for("wishlist.add"))
+        return send_to_prev_page()
 
     id_ = id_ or get_id()
 
@@ -194,7 +194,7 @@ def delete(id_):
 def save_wish_img(wish_id: str) -> None:
     db = get_db()
     img_url = db.execute("SELECT picture_url FROM wish WHERE id = ?", (wish_id,)).fetchone()[0]
-    if not img_url or img_url.startswith(SAVED_IMG_PREFIX):
+    if not img_url or not img_url.startswith("http"):
         return
 
     tmp_dir = Path("/tmp") / "images-for-resize"  # noqa: S108

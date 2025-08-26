@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 import bs4
 import requests
 from currency_converter import CurrencyConverter
-from flask import current_app
+from flask import current_app, redirect, session, url_for
 
 CURRENCY_CONVERTER = CurrencyConverter()
 
@@ -76,3 +76,8 @@ def get_exchange_rate(currency: str) -> float:
 
 def get_id() -> str:
     return str(uuid.uuid4())
+
+
+def send_to_prev_page():
+    last_page = session.get("prev_page", ("index", {}))
+    return redirect(url_for(last_page[0], **last_page[1]))
