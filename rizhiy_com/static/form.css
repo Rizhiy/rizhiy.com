@@ -42,7 +42,8 @@ form input[type="text"],
 form input[type="password"],
 form input[type="email"],
 form input[type="number"],
-form textarea {
+form textarea,
+form select {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid var(--border-color);
@@ -54,7 +55,8 @@ form textarea {
 }
 
 form input:focus,
-form textarea:focus {
+form textarea:focus,
+form select:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 0 2px rgba(55, 120, 194, 0.2);
@@ -63,6 +65,16 @@ form textarea:focus {
 form textarea {
   min-height: 120px;
   resize: vertical;
+}
+
+form select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'><path fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 40px;
+  cursor: pointer;
 }
 
 form input[type="submit"],
@@ -139,7 +151,8 @@ form #currency {
   form input[type="password"],
   form input[type="email"],
   form input[type="number"],
-  form textarea {
+  form textarea,
+  form select {
     padding: 10px 14px;
   }
 
@@ -313,7 +326,8 @@ form #currency {
 /* Form elements use the general form styles, with these specific overrides */
 .wish-form input[type="text"],
 .wish-form input[type="number"],
-.wish-form textarea {
+.wish-form textarea,
+.wish-form select {
   margin-bottom: 16px;
 }
 

@@ -87,15 +87,15 @@ def insert_or_update(request: Request, id_: str = None) -> Response:
     db = get_db()
     fields = ["desc", "rough_price", "currency", "picture_url"]
 
-    # Preserve existing reservation if updating
-    existing_reservation = None
-    existing = db.execute("SELECT reserved_by FROM wish WHERE id = ?", (id_,)).fetchone()
-    if existing:
-        existing_reservation = existing[0]
+    reserved_by_id = None
+    if reserved_by_username := request.form.get("reserved_by"):
+        user = db.execute("SELECT id FROM user WHERE username = ?", (reserved_by_username,)).fetchone()
+        if user:
+            reserved_by_id = user[0]
 
     db.execute(
         f"INSERT OR REPLACE INTO wish (id, title, {', '.join(fields)}, reserved_by) VALUES (?, ?, ?, ?, ?, ?, ?)",  # noqa: S608
-        (id_, title, *(request.form[field] for field in fields), existing_reservation),
+        (id_, title, *(request.form[field] for field in fields), reserved_by_id),
     )
     link_urls = request.form.getlist("link_urls") or []
     link_descs = request.form.getlist("link_descs") or []
@@ -140,7 +140,17 @@ def edit(id_):
 
     if request.method == "POST":
         return insert_or_update(request, id_)
-    return render_template("wishlist/edit.html.jinja", wish=wish)
+
+    db = get_db()
+    users = db.execute("SELECT username FROM user ORDER BY username").fetchall()
+
+    reserved_by_user = None
+    if wish["reserved_by"]:
+        reserved_by_user = db.execute("SELECT username FROM user WHERE id = ?", (wish["reserved_by"],)).fetchone()
+        if reserved_by_user:
+            reserved_by_user = reserved_by_user[0]
+
+    return render_template("wishlist/edit.html.jinja", wish=wish, users=users, reserved_by_user=reserved_by_user)
 
 
 @bp.route("/<id_>/reserve", methods=("GET",))

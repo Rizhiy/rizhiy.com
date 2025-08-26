@@ -86,6 +86,11 @@ def test_open_edit_page(client, auth):
     response = client.get("/wishlist/edit_test_wish/edit")
     assert response.status_code == 200
 
+    # Check that the reserved_by dropdown is present
+    response_text = response.get_data(as_text=True)
+    assert '<select name="reserved_by"' in response_text
+    assert '<option value="">No one</option>' in response_text
+
 
 def test_open_edit_page_non_rizhiy(client, auth):
     auth.login()
@@ -109,3 +114,27 @@ def test_reserve_wish(client, auth):
         db = get_db()
         wish = db.execute("SELECT * FROM wish WHERE id = 'edit_test_wish'").fetchone()
         assert wish["reserved_by"] == "test_user_1"  # Assuming 'test_user_1' is the logged-in user ID
+
+
+def test_edit_wish_reserved_by(client, app, auth):
+    auth.login(username="rizhiy", password="test")  # noqa: S106
+    response = client.post(
+        "/wishlist/edit_test_wish/edit",
+        data={
+            "title": "Updated Wish",
+            "desc": "Updated description",
+            "rough_price": "150.00",
+            "currency": "EUR",
+            "picture_url": "",
+            "reserved_by": "test",
+        },
+    )
+    assert response.status_code == 302
+    follow_response = client.get(response.headers["Location"])
+    assert follow_response.status_code == 200
+
+    with app.app_context():
+        db = get_db()
+        wish = db.execute("SELECT * FROM wish WHERE id = 'edit_test_wish'").fetchone()
+        assert wish["title"] == "Updated Wish"
+        assert wish["reserved_by"] == "test_user_1"  # Should be set to test user's ID

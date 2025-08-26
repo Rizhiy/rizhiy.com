@@ -37,6 +37,16 @@
                 </div>
             {% endif %}
         </div>
+        <label for="reserved_by">Reserved By</label>
+        <select name="reserved_by" id="reserved_by">
+            <option value="">No one</option>
+            {% for user in users %}
+                <option value="{{ user['username'] }}"
+                        {% if reserved_by_user == user['username'] %}selected{% endif %}>
+                    {{ user['username'] }}
+                </option>
+            {% endfor %}
+        </select>
         <label for="links">Links</label>
         <div id="links-container">
             {% for link in wish['links'] %}
