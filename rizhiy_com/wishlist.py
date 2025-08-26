@@ -38,31 +38,27 @@ def get_wish(wish_id: str) -> dict[str, Any]:
     columns = [d[0] for d in query.description]
     wish = dict(zip(columns, query.fetchone(), strict=False))
     wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (wish_id,)).fetchall()
+
+    if isinstance(wish["rough_price"], int | float):
+        try:
+            wish["usd_price"] = math.ceil(wish["rough_price"] * get_exchange_rate(wish["currency"]))
+        except Exception:
+            LOGGER.exception(f"Couldn't get exchange rate for {wish['currency']}")
+            wish["usd_price"] = None
+
+    if wish["picture_url"].startswith(SAVED_IMG_PREFIX):
+        wish["picture_url"] = url_for("wishlist.serve_picture", path=wish["picture_url"][SAVED_IMG_PREFIX_LEN:])
+
     return wish
 
 
 @bp.route("/")
 def index():
     db = get_db()
-    query = db.execute("SELECT * FROM wish")
-    columns = [d[0] for d in query.description]
-    wishes = [dict(zip(columns, r, strict=False)) for r in query.fetchall()]
+    query = db.execute("SELECT id FROM wish")
+    wish_ids = [row[0] for row in query.fetchall()]
+    wishes = [get_wish(id_) for id_ in wish_ids]
 
-    for wish in wishes:
-        if isinstance(wish["rough_price"], int | float):
-            try:
-                wish["usd_price"] = wish["rough_price"] * get_exchange_rate(wish["currency"])
-            except Exception:
-                LOGGER.exception(f"Couldn't get exchange rate for {wish['currency']}")
-                wish["usd_price"] = None
-
-        if wish["picture_url"].startswith(SAVED_IMG_PREFIX):
-            wish["picture_url"] = url_for("wishlist.serve_picture", path=wish["picture_url"][SAVED_IMG_PREFIX_LEN:])
-
-        wish["links"] = db.execute("SELECT * FROM wish_link WHERE wish_id = ?", (wish["id"],)).fetchall()
-    for wish in wishes:
-        if wish.get("usd_price"):
-            wish["usd_price"] = math.ceil(wish["usd_price"])
     available, all_reserved = split_list(wishes, lambda w: w["reserved_by"] is None)
     wishes = []
 

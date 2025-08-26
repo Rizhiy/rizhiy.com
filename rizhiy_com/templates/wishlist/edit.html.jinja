@@ -33,12 +33,7 @@
                    value="{{ wish['picture_url'] }}" />
             {% if wish['picture_url'] %}
                 <div class="image-preview">
-                    {% if wish['picture_url'].startswith('static://') %}
-                        <img src="{{ url_for('static', filename=wish['picture_url'][9:]) }}"
-                             alt="Image preview" />
-                    {% else %}
-                        <img src="{{ wish['picture_url'] }}" alt="Image preview" />
-                    {% endif %}
+                    <img src="{{ wish['picture_url'] }}" alt="Image preview" />
                 </div>
             {% endif %}
         </div>
