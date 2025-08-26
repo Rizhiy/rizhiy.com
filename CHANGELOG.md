@@ -1,12 +1,69 @@
 # CHANGELOG
 
 
-## v0.17.2 (2025-03-15)
+## v1.1.0 (2025-08-26)
+
+### Features
+
+- Enable editing who the wish is reserved by
+  ([`710255b`](https://github.com/Rizhiy/rizhiy.com/commit/710255b6b6838def567ec90366bbbcb0b71d2650))
+
+
+## v1.0.4 (2025-08-26)
+
+### Bug Fixes
+
+- Fix wish edit when image is already saved
+  ([`f8f09e9`](https://github.com/Rizhiy/rizhiy.com/commit/f8f09e976b30ea8a4c06d9b8157a9fb2189f099b))
+
+### Documentation
+
+- **README**: Add note about prod logs
+  ([`f284cb5`](https://github.com/Rizhiy/rizhiy.com/commit/f284cb52a11821125321b028b39a8ef292cda248))
+
+
+## v1.0.3 (2025-08-26)
+
+### Bug Fixes
+
+- Fix photo preview not being shown on edit screen
+  ([`05fb157`](https://github.com/Rizhiy/rizhiy.com/commit/05fb1574ca23783b220f41cf4c6804f453162a98))
+
+
+## v1.0.2 (2025-08-25)
+
+### Bug Fixes
+
+- Fix reservation during editing and last page
+  ([`76bf7f7`](https://github.com/Rizhiy/rizhiy.com/commit/76bf7f7a9eee3ceda495316fe8edd2996df05982))
+
+
+## v1.0.1 (2025-08-25)
+
+### Bug Fixes
+
+- Move currency cache to instance_path as well
+  ([`3d3a076`](https://github.com/Rizhiy/rizhiy.com/commit/3d3a076414deb9320e78101f5d2e718cfc71ec29))
+
+
+## v1.0.0 (2025-08-25)
 
 ### Bug Fixes
 
 - Handle error during currency conversion
   ([`3891230`](https://github.com/Rizhiy/rizhiy.com/commit/3891230a5d0c1a18e29dbcd93c67bc9b32400b5e))
+
+- Improve image handling
+  ([`5f8a8bc`](https://github.com/Rizhiy/rizhiy.com/commit/5f8a8bcd380d057a3c37b4dfc597e4c1ff00c3ff))
+
+* Save images to instance dir, so they don't get deleted during re-install * Download and resize
+  images when adding wish, instead of as a separate command * Fix handling when some fields are
+  missing
+
+### Chores
+
+- Change hostname to rizhiy.com and enable http redirect
+  ([`2e040da`](https://github.com/Rizhiy/rizhiy.com/commit/2e040da8c30a495658879954c22ae328fb15a6db))
 
 
 ## v0.17.1 (2025-02-26)
