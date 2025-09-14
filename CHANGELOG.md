@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.2.0 (2025-09-14)
+
+### Features
+
+- Add mal logo and change others to png
+  ([`e394aae`](https://github.com/Rizhiy/rizhiy.com/commit/e394aae81d411d0f85eedbea966c9266fc08f13f))
+
+
 ## v1.1.0 (2025-08-26)
 
 ### Features
