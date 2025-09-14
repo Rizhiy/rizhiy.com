@@ -7,30 +7,41 @@
 {% block content %}
     <h1>Artem Vasenin</h1>
     <hr>
-    <div class="icon-link">
+    <div class="img-icon">
         <a href="{{ github }}">
-            <i id="github-icon" class="fa-brands fa-github"></i>
+            <img src="{{ url_for('static', filename='images/logos/github.png') }}"
+                 alt="github logo" />
         </a>
     </div>
-    <div class="icon-link">
+    <div class="img-icon">
         <a href="{{ linkedin }}">
-            <i id="linkedin-icon" class="fa-brands fa-linkedin"></i>
+            <img src="{{ url_for('static', filename='images/logos/linkedin.png') }}"
+                 alt="linkedin logo" />
         </a>
     </div>
     <hr>
-    <div class="icon-link">
+    <div class="img-icon">
         <a href="{{ goodreads }}">
-            <i id="goodreads-icon" class="fa-brands fa-goodreads"></i>
+            <img src="{{ url_for('static', filename='images/logos/goodreads.png') }}"
+                 alt="goodreads logo" />
         </a>
     </div>
-    <div class="icon-link">
+    <div class="img-icon">
         <a href="{{ imdb }}">
-            <i id="imdb-icon" class="fa-brands fa-imdb"></i>
+            <img src="{{ url_for('static', filename='images/logos/imdb.png') }}"
+                 alt="imdb logo" />
         </a>
     </div>
-    <div class="icon-link">
+    <div class="img-icon">
         <a href="{{ steam }}">
-            <i id="steam-icon" class="fa-brands fa-steam"></i>
+            <img src="{{ url_for('static', filename='images/logos/steam.png') }}"
+                 alt="steam logo" />
+        </a>
+    </div>
+    <div class="img-icon">
+        <a href="{{ mal }}">
+            <img src="{{ url_for('static', filename='images/logos/mal.png') }}"
+                 alt="mal logo" />
         </a>
     </div>
 {% endblock %}
