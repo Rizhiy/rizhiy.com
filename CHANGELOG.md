@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.2.1 (2025-09-15)
+
+### Bug Fixes
+
+- Update google logo
+  ([`b59b67f`](https://github.com/Rizhiy/rizhiy.com/commit/b59b67f96a23ff1f452cf88c888a8e56d8e7c9e8))
+
+
 ## v1.2.0 (2025-09-14)
 
 ### Features
