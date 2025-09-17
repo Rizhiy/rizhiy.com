@@ -5,4 +5,14 @@
 .img-icon img {
   height: 3em;
   border-radius: 0.5em;
+  transition: transform 0.2s ease;
+}
+.img-icon img:hover {
+  transform: scale(1.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  #github-icon {
+    filter: invert(1);
+  }
 }
