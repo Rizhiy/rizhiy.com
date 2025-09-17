@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.3.0 (2025-09-17)
+
+### Features
+
+- Add hover animation to icons and fix github logo on dark backgrounds
+  ([`ea5bb0e`](https://github.com/Rizhiy/rizhiy.com/commit/ea5bb0ed617e20ebd865603008af8056d9c4c5f2))
+
+
 ## v1.2.1 (2025-09-15)
 
 ### Bug Fixes
