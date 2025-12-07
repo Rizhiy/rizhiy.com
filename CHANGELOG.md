@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.4.1 (2025-12-07)
+
+### Bug Fixes
+
+- Add bgg logo
+  ([`9bb3862`](https://github.com/Rizhiy/rizhiy.com/commit/9bb3862170fe3b62db9618162b4cdb93fd38fbd0))
+
+
 ## v1.4.0 (2025-12-07)
 
 ### Chores
