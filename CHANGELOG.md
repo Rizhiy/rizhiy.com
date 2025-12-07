@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v1.4.0 (2025-12-07)
+
+### Chores
+
+- Remove font-awesome as it is no longer required
+  ([`99a6cc4`](https://github.com/Rizhiy/rizhiy.com/commit/99a6cc49ce786888f7694352f7bb4ac4c07435d8))
+
+### Features
+
+- Add bgg link
+  ([`1e063e6`](https://github.com/Rizhiy/rizhiy.com/commit/1e063e60238110c4a687f5502c14ad4149be1f1e))
+
+
 ## v1.3.0 (2025-09-17)
 
 ### Features
