@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.4.2 (2025-12-15)
+
+### Performance Improvements
+
+- Fix language indicator and optimise css/js loading
+  ([`7cb1616`](https://github.com/Rizhiy/rizhiy.com/commit/7cb16161bd9adec036684bad14ef446d55a19608))
+
+
 ## v1.4.1 (2025-12-07)
 
 ### Bug Fixes
