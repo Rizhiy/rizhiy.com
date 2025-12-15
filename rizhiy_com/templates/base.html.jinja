@@ -1,56 +1,81 @@
 <!DOCTYPE html>
-<head lang="en">
-    <meta charset="utf-8">
-    <title>
-        Rizhiy -
-        {% block title %}{% endblock %}
-    </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
-    {% block head %}{% endblock %}
-</head>
-<body>
-    <header id="header">
-        <nav id="navbar" class="closed">
-            <a href="{{ url_for("index") }}" class="home-link">Home</a>
-            <a href="{{ url_for("wishlist.index") }}" class="center-link">Wishlist</a>
-            {% if g.user == None %}
-                <div class="auth-links">
-                    <a href="{{ url_for("auth.login") }}">Log in</a>
-                    <a href="{{ url_for("auth.register") }}">Register</a>
-                </div>
-            {% else %}
-                <div id="user-part">
-                    {% if g.user["picture_url"] == None %}
-                        <div id="user-icon">
-                            <i>{{ g.user["username"].0.upper() }}</i>
-                        </div>
-                    {% else %}
-                        <img id="user-picture"
-                             src="{{ g.user["picture_url"] }}"
-                             alt="User Profile Picture"
-                             width="200"
-                             height="200">
-                    {% endif %}
-                    <a href="{{ url_for("auth.logout") }}">Log out</a>
-                </div>
-            {% endif %}
-            <a class="icon" onclick="open_nav()">
-                <i class="fa fa-bars"></i>
-            </a>
-        </nav>
-    </header>
-    {% for message in get_flashed_messages(False, 'error') %}
-        <div class="flash-error flash">{{ message }}</div>
-    {% endfor %}
-    {% for message in get_flashed_messages(False, 'warning') %}
-        <div class="flash-warning flash">{{ message }}</div>
-    {% endfor %}
-    {% for message in get_flashed_messages(False, 'message') %}
-        <div class="flash-message flash">{{ message }}</div>
-    {% endfor %}
-    <div id="content">
-        {% block content %}{% endblock %}
-    </div>
-</body>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description"
+              content="Personal website for Artem Vasenin, featuring links to his profiles on other websites and a wishlist">
+        <title>
+            Rizhiy -
+            {% block title %}{% endblock %}
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='navbar.css') }}" />
+        {% for stylesheet in ['icons.css', 'form.css', 'wishlist.css'] %}
+            <link rel="stylesheet"
+                  href="{{ url_for('static', filename=stylesheet) }}"
+                  media="print"
+                  onload="this.onload=null;this.media='all'">
+            <noscript>
+                <link rel="stylesheet" href="{{ url_for('static', filename=stylesheet) }}">
+            </noscript>
+        {% endfor %}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+              media="print"
+              onload="this.onload=null;this.media='all'">
+        <noscript>
+            <link rel="stylesheet"
+                  href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+        </noscript>
+        <script src="{{ url_for('static', filename='main.js') }}" defer></script>
+        {% block head %}{% endblock %}
+    </head>
+    <body>
+        <header id="header">
+            <nav id="navbar" class="closed">
+                <a href="{{ url_for("index") }}" class="home-link">Home</a>
+                <a href="{{ url_for("wishlist.index") }}" class="center-link">Wishlist</a>
+                {% if g.user == None %}
+                    <div class="auth-links">
+                        <a href="{{ url_for("auth.login") }}">Log in</a>
+                        <a href="{{ url_for("auth.register") }}">Register</a>
+                    </div>
+                {% else %}
+                    <div id="user-part">
+                        {% if g.user["picture_url"] == None %}
+                            <div id="user-icon">
+                                <i>{{ g.user["username"].0.upper() }}</i>
+                            </div>
+                        {% else %}
+                            <img id="user-picture"
+                                 src="{{ g.user["picture_url"] }}"
+                                 alt="User Profile Picture"
+                                 width="200"
+                                 height="200">
+                        {% endif %}
+                        <a href="{{ url_for("auth.logout") }}">Log out</a>
+                    </div>
+                {% endif %}
+                <a class="icon" onclick="open_nav()">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </nav>
+        </header>
+        {% for message in get_flashed_messages(False, 'error') %}
+            <div class="flash-error flash">{{ message }}</div>
+        {% endfor %}
+        {% for message in get_flashed_messages(False, 'warning') %}
+            <div class="flash-warning flash">{{ message }}</div>
+        {% endfor %}
+        {% for message in get_flashed_messages(False, 'message') %}
+            <div class="flash-message flash">{{ message }}</div>
+        {% endfor %}
+        <main id="content">
+            {% block content %}{% endblock %}
+        </main>
+    </body>
+</html>

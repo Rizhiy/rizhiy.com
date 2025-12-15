@@ -40,7 +40,7 @@ section_whitelines = 1
 [tool.djlint]
 profile = "jinja"
 extension = "html.jinja"
-ignore = "T003,H006"
+ignore = "T003,H006,H031"
 max_line_length = 120
 
 [tool.pyright]
