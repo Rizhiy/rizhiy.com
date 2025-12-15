@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.4.3 (2025-12-15)
+
+### Performance Improvements
+
+- Further optimisations and logout fix
+  ([`25d28c4`](https://github.com/Rizhiy/rizhiy.com/commit/25d28c43f4822f7d6d0cddcef1383bdc43422eee))
+
+
 ## v1.4.2 (2025-12-15)
 
 ### Performance Improvements
