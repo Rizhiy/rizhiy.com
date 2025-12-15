@@ -1,4 +1,8 @@
 {% extends "base.html.jinja" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='icons.css') }}">
+{% endblock %}
 {% block title %}Home{% endblock %}
 {% block content %}
     <h1>Artem Vasenin</h1>

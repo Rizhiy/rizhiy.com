@@ -1,4 +1,8 @@
 {% extends "base.html.jinja" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+{% endblock %}
 {% block content %}
     <div id="auth">
         {% block auth %}{% endblock %}

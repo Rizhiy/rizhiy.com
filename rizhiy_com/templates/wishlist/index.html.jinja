@@ -1,4 +1,9 @@
 {% extends "base.html.jinja" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='wishlist.css') }}">
+{% endblock %}
 {% block title %}Wishlist{% endblock %}
 {% block content %}
     <div id="wishlist">
